@@ -1,0 +1,23 @@
+[
+    {
+        "id": "1",
+        "product": "camiseta",
+        "color": "rojo",
+        "size": "S",
+        "price": 20
+    },
+    {
+        "id": "2",
+        "product": "chaqueta",
+        "color": "azul",
+        "size": "M",
+        "price": 50
+    },
+    {
+        "id": "3",
+        "product": "gorra",
+        "color": "verde",
+        "size": "L",
+        "price": 15
+    }
+]
