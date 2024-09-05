@@ -36,5 +36,16 @@ function loadProducts() {
 }
 
 function addToCart(productId, color, size) {
-    // Código para agregar producto al carrito
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const product = { id: productId, color, size, quantity: 1 };
+
+    const existingProductIndex = cart.findIndex(item => item.id === productId && item.color === color && item.size === size);
+    if (existingProductIndex !== -1) {
+        cart[existingProductIndex].quantity += 1;
+    } else {
+        cart.push(product);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    Swal.fire('Producto añadido', 'El producto ha sido añadido al carrito.', 'success');
 }
