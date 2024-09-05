@@ -1,23 +1,77 @@
 [
-    {
-        "id": "1",
-        "product": "camiseta",
+  {
+    "id": 1,
+    "product": "camiseta",
+    "description": "Camiseta de algodón cómoda y estilizada.",
+    "image": "./images/camiseta.png",
+    "price": 20,
+    "variants": [
+      {
         "color": "rojo",
-        "size": "S",
-        "price": 20
-    },
-    {
-        "id": "2",
-        "product": "chaqueta",
+        "size": "S"
+      },
+      {
+        "color": "rojo",
+        "size": "M"
+      },
+      {
         "color": "azul",
-        "size": "M",
-        "price": 50
-    },
-    {
-        "id": "3",
-        "product": "gorra",
+        "size": "L"
+      },
+      {
         "color": "verde",
-        "size": "L",
-        "price": 15
-    }
+        "size": "XL"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "product": "chaqueta",
+    "description": "Chaqueta de alta calidad, ideal para el invierno.",
+    "image": "./images/chaqueta.png",
+    "price": 50,
+    "variants": [
+      {
+        "color": "rojo",
+        "size": "S"
+      },
+      {
+        "color": "azul",
+        "size": "M"
+      },
+      {
+        "color": "verde",
+        "size": "L"
+      },
+      {
+        "color": "amarillo",
+        "size": "XL"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "product": "gorra",
+    "description": "Gorra unisex con ajuste perfecto.",
+    "image": "./images/gorra.png",
+    "price": 15,
+    "variants": [
+      {
+        "color": "rojo",
+        "size": "S"
+      },
+      {
+        "color": "azul",
+        "size": "M"
+      },
+      {
+        "color": "verde",
+        "size": "L"
+      },
+      {
+        "color": "amarillo",
+        "size": "XL"
+      }
+    ]
+  }
 ]
