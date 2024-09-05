@@ -3,24 +3,24 @@
         "id": "1",
         "name": "Gorra",
         "price": 15.00,
-        "image": "images/gorra.png",
-        "colors": ["Rojo", "Azul", "Verde", "Amarillo"],
+        "image": "gorra.png",
+        "colors": ["rojo", "azul", "verde", "amarillo"],
         "sizes": ["S", "M", "L"]
     },
     {
         "id": "2",
-        "name": "Chaqueta",
-        "price": 50.00,
-        "image": "images/chaqueta.png",
-        "colors": ["Negro", "Gris"],
-        "sizes": ["S", "M", "L", "XL"]
+        "name": "Camiseta",
+        "price": 25.00,
+        "image": "camiseta.png",
+        "colors": ["rojo", "azul", "verde"],
+        "sizes": ["S", "M"]
     },
     {
         "id": "3",
-        "name": "Camiseta",
-        "price": 20.00,
-        "image": "images/camiseta.png",
-        "colors": ["Blanco", "Negro", "Azul"],
-        "sizes": ["M", "L"]
+        "name": "Chaqueta",
+        "price": 50.00,
+        "image": "chaqueta.png",
+        "colors": ["rojo", "azul"],
+        "sizes": ["S", "M", "L", "XL"]
     }
 ]
