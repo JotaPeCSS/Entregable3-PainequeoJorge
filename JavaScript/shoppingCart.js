@@ -1,112 +1,99 @@
 // shoppingCart.js
 
-// Función para obtener el carrito de compras desde localStorage
-function getCart() {
-    const cart = localStorage.getItem('cart');
-    return cart ? JSON.parse(cart) : [];
-}
+// Cargar los elementos del carrito desde localStorage
+function loadCart() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItems = document.getElementById('cart-items');
+    cartItems.innerHTML = ''; // Limpiar contenido previo
 
-// Función para guardar el carrito de compras en localStorage
-function saveCart(cart) {
-    localStorage.setItem('cart', JSON.stringify(cart));
-}
-
-// Función para actualizar el carrito en la página
-function updateCart() {
-    const cart = getCart();
-    const cartList = document.getElementById('cart-list');
-    const totalElement = document.getElementById('total');
-    
-    cartList.innerHTML = ''; // Limpiar el carrito antes de actualizar
     let total = 0;
 
     cart.forEach(item => {
-        // Crear un elemento de carrito para cada ítem
-        const cartItem = document.createElement('div');
-        cartItem.classList.add('cart-item');
-        cartItem.innerHTML = `
-            <p>Producto: ${item.id}</p>
-            <p>Color: ${item.color}</p>
-            <p>Tamaño: ${item.size}</p>
-            <p>Cantidad: <span class="quantity">${item.quantity}</span></p>
-            <p>Precio: $${(item.price * item.quantity).toFixed(2)}</p>
-            <button class="adjust-quantity" id="decrement-${item.id}" data-id="${item.id}">-</button>
-            <button class="adjust-quantity" id="increment-${item.id}" data-id="${item.id}">+</button>
-            <button class="remove-item" data-id="${item.id}">Eliminar</button>
-        `;
-        cartList.appendChild(cartItem);
+        const cartItemDiv = document.createElement('div');
+        cartItemDiv.className = 'cart-item';
+
+        // Mostrar información del producto
+        const productDiv = document.createElement('div');
+        productDiv.textContent = `Producto: ${item.id}, Color: ${item.color}, Tamaño: ${item.size}, Cantidad: ${item.quantity}`;
+        cartItemDiv.appendChild(productDiv);
+
+        // Botón de ajuste de cantidad
+        const decrementButton = document.createElement('button');
+        decrementButton.className = 'adjust-quantity';
+        decrementButton.id = `decrement-${item.id}`;
+        decrementButton.textContent = '-';
+        decrementButton.addEventListener('click', () => adjustQuantity(item.id, item.color, item.size, -1));
+        cartItemDiv.appendChild(decrementButton);
+
+        const quantitySpan = document.createElement('span');
+        quantitySpan.id = `quantity-${item.id}`;
+        quantitySpan.textContent = item.quantity;
+        cartItemDiv.appendChild(quantitySpan);
+
+        const incrementButton = document.createElement('button');
+        incrementButton.className = 'adjust-quantity';
+        incrementButton.id = `increment-${item.id}`;
+        incrementButton.textContent = '+';
+        incrementButton.addEventListener('click', () => adjustQuantity(item.id, item.color, item.size, 1));
+        cartItemDiv.appendChild(incrementButton);
+
+        // Botón para eliminar del carrito
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-from-cart';
+        removeButton.textContent = 'Eliminar';
+        removeButton.addEventListener('click', () => removeFromCart(item.id, item.color, item.size));
+        cartItemDiv.appendChild(removeButton);
+
+        cartItems.appendChild(cartItemDiv);
 
         // Calcular el total
-        total += item.price * item.quantity;
+        total += item.quantity * getProductPrice(item.id);
     });
 
-    totalElement.textContent = `Total: $${total.toFixed(2)}`;
-
-    // Añadir event listeners a los botones de ajuste de cantidad y eliminar
-    document.querySelectorAll('.adjust-quantity').forEach(button => {
-        button.addEventListener('click', handleQuantityAdjustment);
-    });
-
-    document.querySelectorAll('.remove-item').forEach(button => {
-        button.addEventListener('click', handleRemoveItem);
-    });
+    document.getElementById('cart-total').textContent = `Total: $${total.toFixed(2)}`;
 }
 
-// Función para manejar la adición de un producto al carrito
-function addToCart(item) {
-    const cart = getCart();
-    const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id && cartItem.color === item.color && cartItem.size === item.size);
+// Ajustar la cantidad de un producto en el carrito
+function adjustQuantity(productId, color, size, change) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const item = cart.find(item => item.id === productId && item.color === color && item.size === size);
 
-    if (existingItemIndex > -1) {
-        cart[existingItemIndex].quantity += item.quantity;
-    } else {
-        // Aquí deberías obtener el precio del producto de alguna manera. Por ahora, uso un valor fijo.
-        const productPrice = 20; // Cambiar esto por el precio real del producto
-        cart.push({ ...item, price: productPrice });
+    if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            removeFromCart(productId, color, size);
+        } else {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
     }
-
-    saveCart(cart);
-    updateCart();
 }
 
-// Función para manejar el ajuste de cantidad en el carrito
-function handleQuantityAdjustment(event) {
-    const button = event.target;
-    const productId = button.getAttribute('data-id');
-    const cart = getCart();
-    const item = cart.find(cartItem => cartItem.id === productId);
-
-    if (!item) return;
-
-    if (button.id.startsWith('increment')) {
-        item.quantity += 1;
-    } else if (button.id.startsWith('decrement') && item.quantity > 1) {
-        item.quantity -= 1;
-    }
-
-    saveCart(cart);
-    updateCart();
+// Eliminar un producto del carrito
+function removeFromCart(productId, color, size) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart = cart.filter(item => !(item.id === productId && item.color === color && item.size === size));
+    localStorage.setItem('cart', JSON.stringify(cart));
+    loadCart();
 }
 
-// Función para manejar la eliminación de un ítem del carrito
-function handleRemoveItem(event) {
-    const button = event.target;
-    const productId = button.getAttribute('data-id');
-    let cart = getCart();
-    cart = cart.filter(cartItem => cartItem.id !== productId);
-
-    saveCart(cart);
-    updateCart();
+// Obtener el precio del producto desde el JSON
+function getProductPrice(productId) {
+    return 10.00; // Placeholder, deberías recuperar el precio real del JSON o de otra fuente.
 }
 
-// Función para vaciar el carrito
-function emptyCart() {
+// Vaciar el carrito
+document.getElementById('clear-cart').addEventListener('click', () => {
     localStorage.removeItem('cart');
-    updateCart();
-}
+    loadCart();
+});
 
-// Configurar el evento para vaciar el carrito
-document.getElementById('empty-cart').addEventListener('click', emptyCart);
+// Pagar el carrito
+document.getElementById('checkout').addEventListener('click', () => {
+    Swal.fire('Gracias por su compra', '', 'success');
+    localStorage.removeItem('cart');
+    loadCart();
+});
 
-// Cargar el carrito al inicio
-document.addEventListener('DOMContentLoaded', updateCart);
+// Inicializar el carrito
+document.addEventListener('DOMContentLoaded', loadCart);
