@@ -2,25 +2,28 @@
     {
         "id": "1",
         "name": "Gorra",
-        "price": 15.00,
-        "image": "cap.png",
-        "colors": ["Rojo", "Azul", "Verde", "Amarillo"],
-        "sizes": ["S", "M", "L"]
+        "price": 20.00,
+        "options": {
+            "colors": ["rojo", "azul", "verde", "amarillo"],
+            "sizes": ["S", "M", "L", "XL"]
+        }
     },
     {
         "id": "2",
         "name": "Chaqueta",
-        "price": 45.00,
-        "image": "jacket.png",
-        "colors": ["Negro", "Gris"],
-        "sizes": ["S", "M", "L", "XL"]
+        "price": 50.00,
+        "options": {
+            "colors": ["negro", "gris"],
+            "sizes": ["S", "M", "L", "XL"]
+        }
     },
     {
         "id": "3",
         "name": "Camiseta",
-        "price": 20.00,
-        "image": "tshirt.png",
-        "colors": ["Blanco", "Negro", "Rojo"],
-        "sizes": ["S", "M"]
+        "price": 15.00,
+        "options": {
+            "colors": ["blanco", "negro", "gris"],
+            "sizes": ["S", "M"]
+        }
     }
 ]
