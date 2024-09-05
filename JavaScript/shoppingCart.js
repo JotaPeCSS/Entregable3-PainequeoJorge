@@ -1,80 +1,68 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const cartIcon = document.getElementById('cart-icon');
+    const shoppingCart = document.getElementById('shopping-cart');
+    const emptyCartButton = document.getElementById('empty-cart');
+    const checkoutButton = document.getElementById('checkout');
+
+    cartIcon.addEventListener('click', () => {
+        shoppingCart.classList.toggle('hidden');
+    });
+
+    emptyCartButton.addEventListener('click', () => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡Vas a vaciar el carrito!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, vaciar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('cart');
+                updateCart(); // Actualiza el carrito después de vaciarlo
+                Swal.fire(
+                    'Vacío!',
+                    'Tu carrito ha sido vaciado.',
+                    'success'
+                );
+            }
+        });
+    });
+
+    checkoutButton.addEventListener('click', () => {
+        Swal.fire({
+            title: '¡Compra realizada!',
+            text: 'Gracias por tu compra.',
+            icon: 'success'
+        }).then(() => {
+            localStorage.removeItem('cart');
+            updateCart(); // Actualiza el carrito después de la compra
+        });
+    });
+
+    document.addEventListener('cartUpdated', updateCart);
     updateCart();
-    document.getElementById('empty-cart').addEventListener('click', emptyCart);
-    document.getElementById('pay').addEventListener('click', pay);
 });
 
 function updateCart() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const cartItemsContainer = document.getElementById('cart-items');
-    let total = 0;
+    const cartItems = document.getElementById('cart-items');
+    const totalAmountElement = document.getElementById('total-amount');
 
-    cartItemsContainer.innerHTML = cart.map(item => {
-        const product = findProductById(item.id);
-        const itemTotal = product.price * item.quantity;
-        total += itemTotal;
-        return `
-            <div class="cart-item">
-                <p>${product.name} - Color: ${item.color} - Tamaño: ${item.size}</p>
-                <p>Cantidad: ${item.quantity} - Total: $${itemTotal.toFixed(2)}</p>
-                <button class="gray-button" onclick="changeQuantity('${item.id}', '${item.color}', '${item.size}', -1)">-</button>
-                <button class="gray-button" onclick="changeQuantity('${item.id}', '${item.color}', '${item.size}', 1)">+</button>
-            </div>
+    cartItems.innerHTML = '';
+    let totalAmount = 0;
+
+    cart.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('cart-item');
+        itemElement.innerHTML = `
+            <span>${item.product} - ${item.color} - ${item.size}</span>
+            <span>$${item.price.toFixed(2)}</span>
         `;
-    }).join('');
-
-    document.getElementById('cart-total').innerText = `Total: $${total.toFixed(2)}`;
-}
-
-function findProductById(id) {
-    const products = JSON.parse(localStorage.getItem('products')) || [];
-    return products.find(product => product.id === id);
-}
-
-function changeQuantity(productId, color, size, delta) {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const item = cart.find(item => item.id === productId && item.color === color && item.size === size);
-    
-    if (item) {
-        item.quantity += delta;
-        if (item.quantity <= 0) {
-            const index = cart.indexOf(item);
-            cart.splice(index, 1);
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCart();
-    }
-}
-
-function emptyCart() {
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: 'Esto vaciará tu carrito de compras.',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, vaciar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            localStorage.removeItem('cart');
-            updateCart();
-            Swal.fire(
-                'Vacío',
-                'Tu carrito ha sido vaciado.',
-                'success'
-            );
-        }
+        cartItems.appendChild(itemElement);
+        totalAmount += item.price;
     });
-}
 
-function pay() {
-    Swal.fire({
-        title: 'Gracias por tu compra',
-        text: 'Tu compra ha sido realizada con éxito.',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-    }).then(() => {
-        localStorage.removeItem('cart');
-        updateCart();
-    });
+    totalAmountElement.textContent = totalAmount.toFixed(2);
 }
