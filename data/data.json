@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "1",
         "name": "Gorra",
         "price": 15.00,
         "image": "gorra.jpg",
@@ -8,7 +8,7 @@
         "sizes": ["S", "M", "L"]
     },
     {
-        "id": 2,
+        "id": "2",
         "name": "Chaqueta",
         "price": 45.00,
         "image": "chaqueta.jpg",
@@ -16,11 +16,11 @@
         "sizes": ["S", "M", "L", "XL"]
     },
     {
-        "id": 3,
+        "id": "3",
         "name": "Camiseta",
         "price": 20.00,
         "image": "camiseta.jpg",
-        "colors": ["Rojo", "Azul", "Verde"],
+        "colors": ["Blanco", "Negro", "Rojo"],
         "sizes": ["S", "M"]
     }
 ]
