@@ -1,3 +1,5 @@
+// script.js
+
 // Función para cargar los productos desde el archivo JSON
 async function loadProducts() {
     try {
@@ -5,153 +7,90 @@ async function loadProducts() {
         if (!response.ok) {
             throw new Error('Error al cargar los productos');
         }
-        const products = await response.json();
-        displayProducts(products);
+        const data = await response.json();
+        displayProducts(data);
     } catch (error) {
         console.error('Error al cargar los productos:', error);
     }
 }
 
-// Función para mostrar los productos en el DOM
+// Función para mostrar los productos en la página
 function displayProducts(products) {
-    const productList = document.querySelector('.product-list');
-    productList.innerHTML = ''; // Limpiamos antes de agregar
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = ''; // Limpiar la lista de productos antes de agregar nuevos
 
     products.forEach(product => {
-        const productItem = document.createElement('div');
-        productItem.classList.add('product-item');
-        productItem.innerHTML = `
+        const productElement = document.createElement('div');
+        productElement.classList.add('product');
+        productElement.innerHTML = `
             <img src="./images/${product.image}" alt="${product.name}">
             <h3>${product.name}</h3>
-            <p>${product.description}</p>
-            <p class="price">$${product.price.toFixed(2)}</p>
-            <button data-id="${product.id}" class="add-to-cart-btn">Agregar al Carrito</button>
-        `;
-        productList.appendChild(productItem);
-    });
-}
+            <p>Precio: $${product.price.toFixed(2)}</p>
+            <div class="options">
+                <label for="color-${product.id}">Color:</label>
+                <select id="color-${product.id}" class="color-select">
+                    ${product.colors.map(color => `<option value="${color}">${color}</option>`).join('')}
+                </select>
+                
+                <label for="size-${product.id}">Tamaño:</label>
+                <select id="size-${product.id}" class="size-select">
+                    ${product.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
+                </select>
 
-// Inicializar productos y agregar eventos
-document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
+                <label for="quantity-${product.id}">Cantidad:</label>
+                <button class="adjust-quantity" id="decrement-${product.id}" data-id="${product.id}">-</button>
+                <span id="quantity-${product.id}" class="quantity">1</span>
+                <button class="adjust-quantity" id="increment-${product.id}" data-id="${product.id}">+</button>
 
-    // Evento para agregar producto al carrito
-    document.querySelector('.product-list').addEventListener('click', function(e) {
-        if (e.target.classList.contains('add-to-cart-btn')) {
-            const productId = e.target.getAttribute('data-id');
-            addToCart(productId);
-        }
-    });
-
-    // Evento para vaciar carrito
-    document.querySelector('.btn-vaciar').addEventListener('click', () => {
-        clearCart();
-    });
-
-    // Evento para pagar
-    document.querySelector('.btn-pagar').addEventListener('click', () => {
-        payCart();
-    });
-});
-
-// Función para agregar un producto al carrito
-function addToCart(productId) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const productExists = cart.find(item => item.id === productId);
-
-    if (productExists) {
-        productExists.quantity++;
-    } else {
-        const product = { id: productId, quantity: 1 };
-        cart.push(product);
-    }
-
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCart();
-}
-
-// Función para actualizar el carrito
-function updateCart() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const cartItemsContainer = document.querySelector('#cart-items');
-    cartItemsContainer.innerHTML = '';
-
-    cart.forEach(item => {
-        const productElement = document.createElement('div');
-        productElement.classList.add('cart-item');
-        productElement.innerHTML = `
-            <img src="./images/${item.id}.png" alt="Producto">
-            <div class="item-info">
-                <h4>Producto ${item.id}</h4>
-                <p>Cantidad: <button class="adjust-quantity" data-id="${item.id}" data-action="decrement">-</button>
-                <span>${item.quantity}</span>
-                <button class="adjust-quantity" data-id="${item.id}" data-action="increment">+</button></p>
+                <button class="add-to-cart" data-id="${product.id}">Añadir al Carrito</button>
             </div>
         `;
-        cartItemsContainer.appendChild(productElement);
+        productList.appendChild(productElement);
     });
 
-    document.querySelector('.cart-summary p').innerText = `Total: $${calculateTotal().toFixed(2)}`;
-}
-
-// Función para calcular el total del carrito
-function calculateTotal() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let total = 0;
-
-    cart.forEach(item => {
-        const product = getProductById(item.id);
-        total += product.price * item.quantity;
+    // Añadir event listeners a los botones
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', handleAddToCart);
     });
 
-    return total;
+    document.querySelectorAll('.adjust-quantity').forEach(button => {
+        button.addEventListener('click', handleQuantityAdjustment);
+    });
 }
 
-// Obtener producto por ID (debería cargar desde el archivo JSON)
-function getProductById(id) {
-    // Aquí simularíamos la búsqueda en el JSON
-    const products = [
-        { id: '1', name: 'Gorra', price: 10.99 },
-        { id: '2', name: 'Camiseta', price: 15.99 },
-        { id: '3', name: 'Chaqueta', price: 25.99 }
-    ];
-    return products.find(product => product.id === id);
+// Función para manejar la adición de productos al carrito
+function handleAddToCart(event) {
+    const button = event.target;
+    const productId = button.getAttribute('data-id');
+    const quantity = parseInt(document.getElementById(`quantity-${productId}`).textContent);
+    const color = document.getElementById(`color-${productId}`).value;
+    const size = document.getElementById(`size-${productId}`).value;
+
+    const item = {
+        id: productId,
+        quantity,
+        color,
+        size,
+    };
+
+    addToCart(item);
 }
 
-// Función para vaciar el carrito
-function clearCart() {
-    localStorage.removeItem('cart');
-    updateCart();
-}
+// Función para manejar el ajuste de cantidad
+function handleQuantityAdjustment(event) {
+    const button = event.target;
+    const productId = button.getAttribute('data-id');
+    const quantityElement = document.getElementById(`quantity-${productId}`);
+    let quantity = parseInt(quantityElement.textContent);
 
-// Función para pagar el carrito
-function payCart() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    if (cart.length === 0) {
-        Swal.fire('El carrito está vacío', 'Por favor, agrega productos antes de pagar.', 'warning');
-        return;
+    if (button.id.startsWith('increment')) {
+        quantity += 1;
+    } else if (button.id.startsWith('decrement') && quantity > 1) {
+        quantity -= 1;
     }
 
-    Swal.fire('Pago realizado', 'Gracias por tu compra!', 'success');
-    clearCart();
+    quantityElement.textContent = quantity;
 }
 
-// Evento para ajustar la cantidad de productos (+/-)
-document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('adjust-quantity')) {
-        const productId = e.target.getAttribute('data-id');
-        const action = e.target.getAttribute('data-action');
-
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const product = cart.find(item => item.id === productId);
-
-        if (action === 'increment') {
-            product.quantity++;
-        } else if (action === 'decrement' && product.quantity > 1) {
-            product.quantity--;
-        }
-
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCart();
-    }
-});
+// Cargar los productos al inicio
+document.addEventListener('DOMContentLoaded', loadProducts);
