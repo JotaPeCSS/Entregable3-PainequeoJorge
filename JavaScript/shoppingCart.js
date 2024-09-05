@@ -1,81 +1,65 @@
 document.addEventListener('DOMContentLoaded', () => {
     updateCart();
+    document.getElementById('empty-cart').addEventListener('click', emptyCart);
+    document.getElementById('pay').addEventListener('click', pay);
 });
 
 function updateCart() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const cartContainer = document.getElementById('cart-items');
-    cartContainer.innerHTML = '';
+    const cartItemsContainer = document.getElementById('cart-items');
+    let total = 0;
 
-    cart.forEach(item => {
-        cartContainer.innerHTML += `
+    cartItemsContainer.innerHTML = cart.map(item => {
+        const product = findProductById(item.id);
+        const itemTotal = product.price * item.quantity;
+        total += itemTotal;
+        return `
             <div class="cart-item">
-                <p>Producto ID: ${item.id}</p>
-                <p>Color: ${item.color}</p>
-                <p>Tamaño: ${item.size}</p>
-                <p>Cantidad: ${item.quantity}</p>
-                <button class="remove-item" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">Eliminar</button>
-                <button class="adjust-quantity gray-button" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}" data-action="decrement">-</button>
-                <button class="adjust-quantity gray-button" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}" data-action="increment">+</button>
+                <p>${product.name} - Color: ${item.color} - Tamaño: ${item.size}</p>
+                <p>Cantidad: ${item.quantity} - Total: $${itemTotal.toFixed(2)}</p>
+                <button class="gray-button" onclick="changeQuantity('${item.id}', '${item.color}', '${item.size}', -1)">-</button>
+                <button class="gray-button" onclick="changeQuantity('${item.id}', '${item.color}', '${item.size}', 1)">+</button>
             </div>
         `;
-    });
+    }).join('');
 
-    document.querySelectorAll('.remove-item').forEach(button => {
-        button.addEventListener('click', function() {
-            removeFromCart(this.getAttribute('data-id'), this.getAttribute('data-color'), this.getAttribute('data-size'));
-        });
-    });
-
-    document.querySelectorAll('.adjust-quantity').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.getAttribute('data-id');
-            const color = this.getAttribute('data-color');
-            const size = this.getAttribute('data-size');
-            const action = this.getAttribute('data-action');
-            adjustQuantity(id, color, size, action);
-        });
-    });
-
-    updateTotal();
+    document.getElementById('cart-total').innerText = `Total: $${total.toFixed(2)}`;
 }
 
-function removeFromCart(id, color, size) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart = cart.filter(item => !(item.id === id && item.color === color && item.size === size));
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCart();
+function findProductById(id) {
+    // Load products from data.json
+    const products = JSON.parse(localStorage.getItem('products')) || [];
+    return products.find(product => product.id === id);
 }
 
-function adjustQuantity(id, color, size, action) {
+function changeQuantity(productId, color, size, delta) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const item = cart.find(item => item.id === id && item.color === color && item.size === size);
-
+    const item = cart.find(item => item.id === productId && item.color === color && item.size === size);
+    
     if (item) {
-        if (action === 'increment') {
-            item.quantity += 1;
-        } else if (action === 'decrement') {
-            item.quantity -= 1;
-            if (item.quantity <= 0) {
-                removeFromCart(id, color, size);
-                return;
-            }
+        item.quantity += delta;
+        if (item.quantity <= 0) {
+            const index = cart.indexOf(item);
+            cart.splice(index, 1);
         }
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCart();
     }
 }
 
-function updateTotal() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const total = cart.reduce((sum, item) => {
-        const product = products.find(p => p.id === item.id);
-        return sum + (item.quantity * (product ? product.price : 0));
-    }, 0);
-    document.getElementById('total').innerText = `Total: $${total.toFixed(2)}`;
-}
-
-document.getElementById('empty-cart').addEventListener('click', () => {
+function emptyCart() {
     localStorage.removeItem('cart');
     updateCart();
-});
+}
+
+function pay() {
+    Swal.fire({
+        title: 'Gracias por tu compra',
+        text: 'Tu compra ha sido realizada con éxito.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    }).then(() => {
+        localStorage.removeItem('cart');
+        updateCart();
+    });
+}
