@@ -8,8 +8,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+    <header>
+        <div id="cart-icon">
+            <img src="./images/cart-icon.png" alt="Carrito">
+            <span id="cart-count">0</span>
+        </div>
+    </header>
     <div id="products-container"></div>
-    <div id="shopping-cart">
+    <div id="shopping-cart" class="hidden">
         <div id="cart-items"></div>
         <button id="empty-cart" class="red-button">Vaciar Carrito</button>
         <button id="pay" class="pay-button">Pagar</button>
