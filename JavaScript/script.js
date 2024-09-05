@@ -1,10 +1,10 @@
-// script.js
+document.addEventListener('DOMContentLoaded', () => {
+    loadProducts();
+});
 
-// Cargar los productos desde data.json
 async function loadProducts() {
     try {
         const response = await fetch('./data/data.json');
-        if (!response.ok) throw new Error('Error en la carga de productos');
         const products = await response.json();
         displayProducts(products);
     } catch (error) {
@@ -12,78 +12,33 @@ async function loadProducts() {
     }
 }
 
-// Mostrar los productos en el HTML
 function displayProducts(products) {
     const container = document.getElementById('products-container');
-    container.innerHTML = ''; // Limpiar contenido previo
+    container.innerHTML = '';
 
     products.forEach(product => {
-        // Crear un contenedor para el producto
-        const productDiv = document.createElement('div');
-        productDiv.className = 'product';
-
-        // Agregar la imagen del producto
-        const img = document.createElement('img');
-        img.src = product.image;
-        img.alt = product.name;
-        productDiv.appendChild(img);
-
-        // Agregar nombre del producto
-        const name = document.createElement('h3');
-        name.textContent = product.name;
-        productDiv.appendChild(name);
-
-        // Agregar precio del producto
-        const price = document.createElement('p');
-        price.textContent = `$${product.price.toFixed(2)}`;
-        productDiv.appendChild(price);
-
-        // Agregar opciones de color
-        const colorSelect = document.createElement('select');
-        colorSelect.id = `${product.id}-color`;
-        product.colors.forEach(color => {
-            const option = document.createElement('option');
-            option.value = color;
-            option.textContent = color.charAt(0).toUpperCase() + color.slice(1);
-            colorSelect.appendChild(option);
-        });
-        productDiv.appendChild(colorSelect);
-
-        // Agregar opciones de talla
-        const sizeSelect = document.createElement('select');
-        sizeSelect.id = `${product.id}-size`;
-        product.sizes.forEach(size => {
-            const option = document.createElement('option');
-            option.value = size;
-            option.textContent = size.toUpperCase();
-            sizeSelect.appendChild(option);
-        });
-        productDiv.appendChild(sizeSelect);
-
-        // Botón para agregar al carrito
-        const addButton = document.createElement('button');
-        addButton.className = 'add-to-cart';
-        addButton.textContent = 'Agregar al carrito';
-        addButton.addEventListener('click', () => {
-            const selectedColor = document.getElementById(`${product.id}-color`).value;
-            const selectedSize = document.getElementById(`${product.id}-size`).value;
-            addToCart(product.id, selectedColor, selectedSize);
-        });
-        productDiv.appendChild(addButton);
-
-        // Agregar el producto al contenedor
-        container.appendChild(productDiv);
+        const productElement = document.createElement('div');
+        productElement.className = 'product';
+        productElement.innerHTML = `
+            <img src="./images/${product.image}" alt="${product.name}">
+            <div class="product-details">
+                <h3>${product.name}</h3>
+                <p>Precio: $${product.price}</p>
+                <label for="color-${product.id}">Color:</label>
+                <select id="color-${product.id}" name="color">
+                    ${product.colors.map(color => `<option value="${color}">${color}</option>`).join('')}
+                </select>
+                <label for="size-${product.id}">Talla:</label>
+                <select id="size-${product.id}" name="size">
+                    ${product.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
+                </select>
+                <button onclick="addToCart(${product.id})">Añadir al Carrito</button>
+            </div>
+        `;
+        container.appendChild(productElement);
     });
 }
 
-// Función para agregar al carrito
-function addToCart(productId, color, size) {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const product = { id: productId, color, size, quantity: 1 };
-    cart.push(product);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    Swal.fire('Producto añadido', '', 'success');
+function addToCart(productId) {
+    // Implementa la lógica para añadir productos al carrito
 }
-
-// Inicializar la carga de productos
-document.addEventListener('DOMContentLoaded', loadProducts);
