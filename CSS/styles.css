@@ -1,160 +1,111 @@
-/* Estilos generales para la tienda */
+/* styles.css */
 
+/* Estilo general del cuerpo */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
 }
 
-/* Contenedor principal */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+/* Estilo del contenedor de productos */
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px;
 }
 
-/* Estilos para los productos */
+/* Estilo de cada producto */
 .product {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #fff;
+    width: 200px;
     text-align: center;
-    background-color: #f9f9f9;
 }
 
 .product img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
-.product h2 {
-    font-size: 1.5em;
+.product h3 {
     margin: 10px 0;
 }
 
 .product p {
-    margin: 10px 0;
+    margin: 0;
+    font-weight: bold;
 }
 
+/* Estilo de los selectores de color y talla */
 .product select {
+    margin: 10px 0;
+    width: 100%;
     padding: 5px;
-    margin-top: 10px;
 }
 
-.product button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+/* Estilo de los botones */
+button {
+    padding: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
 }
 
-.product button:hover {
-    background-color: #0056b3;
+button.adjust-quantity {
+    background-color: #e0e0e0;
 }
 
-/* Estilos para el carrito de compras */
-#cart {
+button.add-to-cart {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+button.clear-cart {
+    background-color: #f44336;
+    color: #fff;
+}
+
+button.checkout {
+    background-color: #2196f3;
+    color: #fff;
+}
+
+/* Estilo del carrito de compras */
+.shopping-cart {
     position: fixed;
     right: 20px;
     top: 20px;
-    width: 300px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     padding: 20px;
+    background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
 }
 
-#cart h2 {
-    font-size: 1.5em;
-    margin: 0;
+.cart-items {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
 }
 
-#cart-list {
-    margin: 20px 0;
+.cart-total {
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
-.cart-item {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-}
-
-.cart-item:last-child {
-    border-bottom: none;
-}
-
-.cart-item p {
-    margin: 5px 0;
-}
-
-.adjust-quantity {
-    background-color: #ccc;
-    border: none;
-    border-radius: 5px;
-    color: #333;
-    cursor: pointer;
-    padding: 5px 10px;
-    margin: 0 5px;
-}
-
-.adjust-quantity:hover {
-    background-color: #bbb;
-}
-
-.remove-item {
-    background-color: #dc3545;
-    border: none;
-    border-radius: 5px;
+.clear-cart {
+    background-color: #f44336;
     color: #fff;
-    cursor: pointer;
-    padding: 5px 10px;
-    margin-left: 10px;
-}
-
-.remove-item:hover {
-    background-color: #c82333;
-}
-
-#total {
-    font-size: 1.2em;
-    margin: 10px 0;
-}
-
-#empty-cart {
-    background-color: #dc3545;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    padding: 10px 20px;
-    margin-top: 10px;
-    display: block;
-    width: 100%;
-    text-align: center;
-}
-
-#empty-cart:hover {
-    background-color: #c82333;
-}
-
-#checkout {
-    background-color: #28a745;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    padding: 10px 20px;
-    margin-top: 10px;
-    display: block;
-    width: 100%;
-    text-align: center;
-}
-
-#checkout:hover {
-    background-color: #218838;
 }
