@@ -1,125 +1,112 @@
-// Obtener los productos almacenados en localStorage
-function getCartItems() {
-    return JSON.parse(localStorage.getItem('cart')) || [];
+// shoppingCart.js
+
+// Función para obtener el carrito de compras desde localStorage
+function getCart() {
+    const cart = localStorage.getItem('cart');
+    return cart ? JSON.parse(cart) : [];
 }
 
-// Guardar los productos en localStorage
-function saveCartItems(cartItems) {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
+// Función para guardar el carrito de compras en localStorage
+function saveCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Actualizar la visualización del carrito
+// Función para actualizar el carrito en la página
 function updateCart() {
-    const cartItemsContainer = document.querySelector('#cart-items');
-    const cartItems = getCartItems();
-    cartItemsContainer.innerHTML = ''; // Limpiamos el contenido previo
+    const cart = getCart();
+    const cartList = document.getElementById('cart-list');
+    const totalElement = document.getElementById('total');
+    
+    cartList.innerHTML = ''; // Limpiar el carrito antes de actualizar
+    let total = 0;
 
-    // Si el carrito está vacío, mostramos un mensaje
-    if (cartItems.length === 0) {
-        cartItemsContainer.innerHTML = '<p>El carrito está vacío.</p>';
+    cart.forEach(item => {
+        // Crear un elemento de carrito para cada ítem
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('cart-item');
+        cartItem.innerHTML = `
+            <p>Producto: ${item.id}</p>
+            <p>Color: ${item.color}</p>
+            <p>Tamaño: ${item.size}</p>
+            <p>Cantidad: <span class="quantity">${item.quantity}</span></p>
+            <p>Precio: $${(item.price * item.quantity).toFixed(2)}</p>
+            <button class="adjust-quantity" id="decrement-${item.id}" data-id="${item.id}">-</button>
+            <button class="adjust-quantity" id="increment-${item.id}" data-id="${item.id}">+</button>
+            <button class="remove-item" data-id="${item.id}">Eliminar</button>
+        `;
+        cartList.appendChild(cartItem);
+
+        // Calcular el total
+        total += item.price * item.quantity;
+    });
+
+    totalElement.textContent = `Total: $${total.toFixed(2)}`;
+
+    // Añadir event listeners a los botones de ajuste de cantidad y eliminar
+    document.querySelectorAll('.adjust-quantity').forEach(button => {
+        button.addEventListener('click', handleQuantityAdjustment);
+    });
+
+    document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', handleRemoveItem);
+    });
+}
+
+// Función para manejar la adición de un producto al carrito
+function addToCart(item) {
+    const cart = getCart();
+    const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id && cartItem.color === item.color && cartItem.size === item.size);
+
+    if (existingItemIndex > -1) {
+        cart[existingItemIndex].quantity += item.quantity;
     } else {
-        cartItems.forEach(item => {
-            const productElement = document.createElement('div');
-            productElement.classList.add('cart-item');
-            productElement.innerHTML = `
-                <img src="./images/${item.id}.png" alt="${item.name}">
-                <div class="item-info">
-                    <h4>${item.name}</h4>
-                    <p>Precio: $${item.price.toFixed(2)}</p>
-                    <p>Cantidad: 
-                        <button class="adjust-quantity" data-id="${item.id}" data-action="decrement">-</button>
-                        <span>${item.quantity}</span>
-                        <button class="adjust-quantity" data-id="${item.id}" data-action="increment">+</button>
-                    </p>
-                </div>
-            `;
-            cartItemsContainer.appendChild(productElement);
-        });
+        // Aquí deberías obtener el precio del producto de alguna manera. Por ahora, uso un valor fijo.
+        const productPrice = 20; // Cambiar esto por el precio real del producto
+        cart.push({ ...item, price: productPrice });
     }
 
-    // Actualizamos el resumen del carrito (total)
-    updateCartSummary();
+    saveCart(cart);
+    updateCart();
 }
 
-// Calcular el total del carrito
-function calculateTotal() {
-    const cartItems = getCartItems();
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+// Función para manejar el ajuste de cantidad en el carrito
+function handleQuantityAdjustment(event) {
+    const button = event.target;
+    const productId = button.getAttribute('data-id');
+    const cart = getCart();
+    const item = cart.find(cartItem => cartItem.id === productId);
+
+    if (!item) return;
+
+    if (button.id.startsWith('increment')) {
+        item.quantity += 1;
+    } else if (button.id.startsWith('decrement') && item.quantity > 1) {
+        item.quantity -= 1;
+    }
+
+    saveCart(cart);
+    updateCart();
 }
 
-// Actualizar el resumen del carrito
-function updateCartSummary() {
-    const totalElement = document.querySelector('.cart-summary p');
-    const total = calculateTotal();
-    totalElement.textContent = `Total: $${total.toFixed(2)}`;
+// Función para manejar la eliminación de un ítem del carrito
+function handleRemoveItem(event) {
+    const button = event.target;
+    const productId = button.getAttribute('data-id');
+    let cart = getCart();
+    cart = cart.filter(cartItem => cartItem.id !== productId);
+
+    saveCart(cart);
+    updateCart();
 }
 
-// Vaciar el carrito
-function clearCart() {
+// Función para vaciar el carrito
+function emptyCart() {
     localStorage.removeItem('cart');
     updateCart();
 }
 
-// Añadir un producto al carrito
-function addToCart(productId, productName, productPrice) {
-    let cartItems = getCartItems();
-    const existingItem = cartItems.find(item => item.id === productId);
+// Configurar el evento para vaciar el carrito
+document.getElementById('empty-cart').addEventListener('click', emptyCart);
 
-    if (existingItem) {
-        existingItem.quantity++;
-    } else {
-        cartItems.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
-    }
-
-    saveCartItems(cartItems);
-    updateCart();
-}
-
-// Ajustar la cantidad de productos en el carrito
-function adjustQuantity(productId, action) {
-    let cartItems = getCartItems();
-    const item = cartItems.find(item => item.id === productId);
-
-    if (item) {
-        if (action === 'increment') {
-            item.quantity++;
-        } else if (action === 'decrement' && item.quantity > 1) {
-            item.quantity--;
-        }
-    }
-
-    saveCartItems(cartItems);
-    updateCart();
-}
-
-// Evento para ajustar la cantidad (+/-) en el carrito
-document.addEventListener('click', function (e) {
-    if (e.target.classList.contains('adjust-quantity')) {
-        const productId = e.target.getAttribute('data-id');
-        const action = e.target.getAttribute('data-action');
-        adjustQuantity(productId, action);
-    }
-});
-
-// Evento para vaciar el carrito
-document.querySelector('.btn-vaciar').addEventListener('click', function () {
-    clearCart();
-});
-
-// Evento para pagar el carrito
-document.querySelector('.btn-pagar').addEventListener('click', function () {
-    const cartItems = getCartItems();
-
-    if (cartItems.length === 0) {
-        Swal.fire('El carrito está vacío', 'Por favor, agrega productos antes de pagar.', 'warning');
-        return;
-    }
-
-    Swal.fire('Pago realizado', 'Gracias por tu compra!', 'success');
-    clearCart();
-});
-
-// Inicializamos el carrito al cargar la página
-document.addEventListener('DOMContentLoaded', function () {
-    updateCart();
-});
+// Cargar el carrito al inicio
+document.addEventListener('DOMContentLoaded', updateCart);
