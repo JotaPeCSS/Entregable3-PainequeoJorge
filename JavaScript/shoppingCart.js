@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', updateCart);
+document.addEventListener('DOMContentLoaded', () => {
+    updateCart();
+});
 
 function updateCart() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -10,11 +12,11 @@ function updateCart() {
             <div class="cart-item">
                 <p>Producto ID: ${item.id}</p>
                 <p>Color: ${item.color}</p>
-                <p>Talla: ${item.size}</p>
+                <p>Tamaño: ${item.size}</p>
                 <p>Cantidad: ${item.quantity}</p>
                 <button class="remove-item" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">Eliminar</button>
-                <button class="adjust-quantity" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}" data-action="decrement">-</button>
-                <button class="adjust-quantity" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}" data-action="increment">+</button>
+                <button class="adjust-quantity gray-button" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}" data-action="decrement">-</button>
+                <button class="adjust-quantity gray-button" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}" data-action="increment">+</button>
             </div>
         `;
     });
@@ -34,6 +36,8 @@ function updateCart() {
             adjustQuantity(id, color, size, action);
         });
     });
+
+    updateTotal();
 }
 
 function removeFromCart(id, color, size) {
@@ -61,3 +65,17 @@ function adjustQuantity(id, color, size, action) {
         updateCart();
     }
 }
+
+function updateTotal() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const total = cart.reduce((sum, item) => {
+        const product = products.find(p => p.id === item.id);
+        return sum + (item.quantity * (product ? product.price : 0));
+    }, 0);
+    document.getElementById('total').innerText = `Total: $${total.toFixed(2)}`;
+}
+
+document.getElementById('empty-cart').addEventListener('click', () => {
+    localStorage.removeItem('cart');
+    updateCart();
+});
