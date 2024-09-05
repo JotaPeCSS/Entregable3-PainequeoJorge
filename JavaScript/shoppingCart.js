@@ -57,20 +57,6 @@ const updateCart = () => {
     updateCartTotal();
 };
 
-const addToCart = (id, name, price, color, size) => {
-    let cart = getCart();
-    const itemIndex = cart.findIndex(item => item.id === id && item.color === color && item.size === size);
-
-    if (itemIndex > -1) {
-        cart[itemIndex].quantity += 1;
-    } else {
-        cart.push({ id, name, price, color, size, quantity: 1 });
-    }
-
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCart();
-};
-
 const removeFromCart = (id, color, size) => {
     let cart = getCart();
     cart = cart.filter(item => !(item.id === id && item.color === color && item.size === size));
