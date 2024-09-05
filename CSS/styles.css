@@ -108,3 +108,17 @@ main {
     font-weight: bold;
     margin-top: 10px;
 }
+
+/* Styles for quantity buttons */
+.adjust-quantity {
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+.adjust-quantity:hover {
+    background-color: #e2e2e2;
+}
