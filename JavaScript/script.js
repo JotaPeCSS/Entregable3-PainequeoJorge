@@ -1,96 +1,89 @@
 // script.js
 
-// Función para cargar los productos desde el archivo JSON
+// Cargar los productos desde data.json
 async function loadProducts() {
     try {
         const response = await fetch('./data/data.json');
-        if (!response.ok) {
-            throw new Error('Error al cargar los productos');
-        }
-        const data = await response.json();
-        displayProducts(data);
+        if (!response.ok) throw new Error('Error en la carga de productos');
+        const products = await response.json();
+        displayProducts(products);
     } catch (error) {
         console.error('Error al cargar los productos:', error);
     }
 }
 
-// Función para mostrar los productos en la página
+// Mostrar los productos en el HTML
 function displayProducts(products) {
-    const productList = document.getElementById('product-list');
-    productList.innerHTML = ''; // Limpiar la lista de productos antes de agregar nuevos
+    const container = document.getElementById('products-container');
+    container.innerHTML = ''; // Limpiar contenido previo
 
     products.forEach(product => {
-        const productElement = document.createElement('div');
-        productElement.classList.add('product');
-        productElement.innerHTML = `
-            <img src="./images/${product.image}" alt="${product.name}">
-            <h3>${product.name}</h3>
-            <p>Precio: $${product.price.toFixed(2)}</p>
-            <div class="options">
-                <label for="color-${product.id}">Color:</label>
-                <select id="color-${product.id}" class="color-select">
-                    ${product.colors.map(color => `<option value="${color}">${color}</option>`).join('')}
-                </select>
-                
-                <label for="size-${product.id}">Tamaño:</label>
-                <select id="size-${product.id}" class="size-select">
-                    ${product.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
-                </select>
+        // Crear un contenedor para el producto
+        const productDiv = document.createElement('div');
+        productDiv.className = 'product';
 
-                <label for="quantity-${product.id}">Cantidad:</label>
-                <button class="adjust-quantity" id="decrement-${product.id}" data-id="${product.id}">-</button>
-                <span id="quantity-${product.id}" class="quantity">1</span>
-                <button class="adjust-quantity" id="increment-${product.id}" data-id="${product.id}">+</button>
+        // Agregar la imagen del producto
+        const img = document.createElement('img');
+        img.src = product.image;
+        img.alt = product.name;
+        productDiv.appendChild(img);
 
-                <button class="add-to-cart" data-id="${product.id}">Añadir al Carrito</button>
-            </div>
-        `;
-        productList.appendChild(productElement);
-    });
+        // Agregar nombre del producto
+        const name = document.createElement('h3');
+        name.textContent = product.name;
+        productDiv.appendChild(name);
 
-    // Añadir event listeners a los botones
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', handleAddToCart);
-    });
+        // Agregar precio del producto
+        const price = document.createElement('p');
+        price.textContent = `$${product.price.toFixed(2)}`;
+        productDiv.appendChild(price);
 
-    document.querySelectorAll('.adjust-quantity').forEach(button => {
-        button.addEventListener('click', handleQuantityAdjustment);
+        // Agregar opciones de color
+        const colorSelect = document.createElement('select');
+        colorSelect.id = `${product.id}-color`;
+        product.colors.forEach(color => {
+            const option = document.createElement('option');
+            option.value = color;
+            option.textContent = color.charAt(0).toUpperCase() + color.slice(1);
+            colorSelect.appendChild(option);
+        });
+        productDiv.appendChild(colorSelect);
+
+        // Agregar opciones de talla
+        const sizeSelect = document.createElement('select');
+        sizeSelect.id = `${product.id}-size`;
+        product.sizes.forEach(size => {
+            const option = document.createElement('option');
+            option.value = size;
+            option.textContent = size.toUpperCase();
+            sizeSelect.appendChild(option);
+        });
+        productDiv.appendChild(sizeSelect);
+
+        // Botón para agregar al carrito
+        const addButton = document.createElement('button');
+        addButton.className = 'add-to-cart';
+        addButton.textContent = 'Agregar al carrito';
+        addButton.addEventListener('click', () => {
+            const selectedColor = document.getElementById(`${product.id}-color`).value;
+            const selectedSize = document.getElementById(`${product.id}-size`).value;
+            addToCart(product.id, selectedColor, selectedSize);
+        });
+        productDiv.appendChild(addButton);
+
+        // Agregar el producto al contenedor
+        container.appendChild(productDiv);
     });
 }
 
-// Función para manejar la adición de productos al carrito
-function handleAddToCart(event) {
-    const button = event.target;
-    const productId = button.getAttribute('data-id');
-    const quantity = parseInt(document.getElementById(`quantity-${productId}`).textContent);
-    const color = document.getElementById(`color-${productId}`).value;
-    const size = document.getElementById(`size-${productId}`).value;
-
-    const item = {
-        id: productId,
-        quantity,
-        color,
-        size,
-    };
-
-    addToCart(item);
+// Función para agregar al carrito
+function addToCart(productId, color, size) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const product = { id: productId, color, size, quantity: 1 };
+    cart.push(product);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    Swal.fire('Producto añadido', '', 'success');
 }
 
-// Función para manejar el ajuste de cantidad
-function handleQuantityAdjustment(event) {
-    const button = event.target;
-    const productId = button.getAttribute('data-id');
-    const quantityElement = document.getElementById(`quantity-${productId}`);
-    let quantity = parseInt(quantityElement.textContent);
-
-    if (button.id.startsWith('increment')) {
-        quantity += 1;
-    } else if (button.id.startsWith('decrement') && quantity > 1) {
-        quantity -= 1;
-    }
-
-    quantityElement.textContent = quantity;
-}
-
-// Cargar los productos al inicio
+// Inicializar la carga de productos
 document.addEventListener('DOMContentLoaded', loadProducts);
