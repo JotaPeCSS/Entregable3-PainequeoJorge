@@ -1,72 +1,40 @@
-// script.js
+document.addEventListener('DOMContentLoaded', loadProducts);
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
-    document.getElementById('toggle-cart').addEventListener('click', toggleCart);
-});
+function loadProducts() {
+    fetch('./data/data.json')
+        .then(response => response.json())
+        .then(data => {
+            const productContainer = document.getElementById('product-container');
+            productContainer.innerHTML = '';
 
-const loadProducts = async () => {
-    try {
-        const response = await fetch('./data/data.json');
-        const data = await response.json();
-        displayProducts(data);
-    } catch (error) {
-        console.error('Error al cargar los productos:', error);
-    }
-};
+            data.forEach(product => {
+                let colorOptions = product.colors.map(color => `<option value="${color}">${color}</option>`).join('');
+                let sizeOptions = product.sizes.map(size => `<option value="${size}">${size}</option>`).join('');
 
-const displayProducts = (products) => {
-    const productsContainer = document.getElementById('products');
-    productsContainer.innerHTML = ''; // Clear existing products
+                productContainer.innerHTML += `
+                    <div class="product">
+                        <img src="./images/${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>Precio: $${product.price.toFixed(2)}</p>
+                        <select class="color-selector">${colorOptions}</select>
+                        <select class="size-selector">${sizeOptions}</select>
+                        <button class="add-to-cart" data-id="${product.id}">Añadir al carrito</button>
+                    </div>
+                `;
+            });
 
-    products.forEach(product => {
-        const productElement = document.createElement('div');
-        productElement.classList.add('product');
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    const color = this.previousElementSibling.previousElementSibling.value;
+                    const size = this.previousElementSibling.value;
+                    addToCart(productId, color, size);
+                });
+            });
+        })
+        .catch(error => console.error('Error al cargar los productos:', error));
+}
 
-        productElement.innerHTML = `
-            <img src="./images/${product.image}" alt="${product.name}">
-            <h2>${product.name}</h2>
-            <p>Price: $${product.price}</p>
-            <select class="color-selector">
-                ${product.colors.map(color => `<option value="${color}">${color}</option>`).join('')}
-            </select>
-            <select class="size-selector">
-                ${product.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
-            </select>
-            <button class="add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Add to Cart</button>
-        `;
-
-        productsContainer.appendChild(productElement);
-    });
-
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const productId = e.target.dataset.id;
-            const productName = e.target.dataset.name;
-            const productPrice = e.target.dataset.price;
-            const productElement = e.target.closest('.product');
-            const color = productElement.querySelector('.color-selector').value;
-            const size = productElement.querySelector('.size-selector').value;
-            addToCart(productId, productName, productPrice, color, size);
-        });
-    });
-};
-
-const toggleCart = () => {
-    const cartContainer = document.getElementById('cart');
-    cartContainer.classList.toggle('active');
-};
-
-const addToCart = (id, name, price, color, size) => {
-    let cart = getCart();
-    const itemIndex = cart.findIndex(item => item.id === id && item.color === color && item.size === size);
-
-    if (itemIndex > -1) {
-        cart[itemIndex].quantity += 1;
-    } else {
-        cart.push({ id, name, price, color, size, quantity: 1 });
-    }
-
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCart();
-};
+function addToCart(productId, color, size) {
+    // Código para agregar producto al carrito
+}
