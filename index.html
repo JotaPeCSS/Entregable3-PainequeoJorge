@@ -4,22 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Tienda</title>
-    <link rel="stylesheet" href="CSS/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="./CSS/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <div id="products-container" class="products-container"></div>
+    <header>
+        <h1>Mi Tienda</h1>
+    </header>
 
-    <div id="shopping-cart" class="shopping-cart">
-        <h2>Carrito de Compras</h2>
-        <div id="cart-items" class="cart-items"></div>
-        <button id="clear-cart" class="clear-cart">Vaciar Carrito</button>
-        <div id="cart-total" class="cart-total">Total: $0.00</div>
-        <button id="checkout" class="checkout">Pagar</button>
-    </div>
+    <main>
+        <!-- Productos -->
+        <section id="products-container"></section>
 
-    <script src="JavaScript/script.js"></script>
-    <script src="JavaScript/shoppingCart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+        <!-- Carrito de Compras -->
+        <section id="cart-container">
+            <h2>Carrito de Compras</h2>
+            <div id="cart-items"></div>
+            <div id="cart-total">
+                <span>Total: $<span id="total">0.00</span></span>
+                <button id="empty-cart" class="btn-empty">Vaciar Carrito</button>
+                <button id="checkout" class="btn-checkout">Pagar</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="./JavaScript/script.js"></script>
+    <script src="./JavaScript/shoppingCart.js"></script>
 </body>
 </html>
