@@ -1,42 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Tienda</title>
-    <link rel="stylesheet" href="./CSS/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
-
 <body>
-    <header>
-        <h1>Mi Tienda</h1>
-    </header>
+    <div id="products-container" class="products-container"></div>
 
-    <main>
-        <!-- Sección de productos -->
-        <section id="product-list">
-            <!-- Los productos se cargarán aquí mediante JavaScript -->
-        </section>
+    <div id="shopping-cart" class="shopping-cart">
+        <h2>Carrito de Compras</h2>
+        <div id="cart-items" class="cart-items"></div>
+        <button id="clear-cart" class="clear-cart">Vaciar Carrito</button>
+        <div id="cart-total" class="cart-total">Total: $0.00</div>
+        <button id="checkout" class="checkout">Pagar</button>
+    </div>
 
-        <!-- Carrito de compras -->
-        <aside id="cart">
-            <h2>Carrito de Compras</h2>
-            <div id="cart-items">
-                <!-- Los productos en el carrito se mostrarán aquí -->
-            </div>
-            <button id="empty-cart" class="button button-red">Vaciar Carrito</button>
-            <div id="cart-total">
-                Total: $<span id="total">0.00</span>
-            </div>
-            <button id="checkout" class="button">Pagar</button>
-        </aside>
-    </main>
-
-    <script src="./JavaScript/script.js"></script>
-    <script src="./JavaScript/shoppingCart.js"></script>
+    <script src="JavaScript/script.js"></script>
+    <script src="JavaScript/shoppingCart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 </body>
-
 </html>
