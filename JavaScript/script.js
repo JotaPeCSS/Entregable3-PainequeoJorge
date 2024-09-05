@@ -1,44 +1,71 @@
+// script.js
+
 document.addEventListener('DOMContentLoaded', () => {
     loadProducts();
+    document.getElementById('toggle-cart').addEventListener('click', toggleCart);
 });
 
-async function loadProducts() {
+const loadProducts = async () => {
     try {
         const response = await fetch('./data/data.json');
-        const products = await response.json();
-        displayProducts(products);
+        const data = await response.json();
+        displayProducts(data);
     } catch (error) {
         console.error('Error al cargar los productos:', error);
     }
-}
+};
 
-function displayProducts(products) {
-    const container = document.getElementById('products-container');
-    container.innerHTML = '';
+const displayProducts = (products) => {
+    const productsContainer = document.getElementById('products');
+    productsContainer.innerHTML = ''; // Clear existing products
 
     products.forEach(product => {
         const productElement = document.createElement('div');
-        productElement.className = 'product';
+        productElement.classList.add('product');
+
         productElement.innerHTML = `
             <img src="./images/${product.image}" alt="${product.name}">
-            <div class="product-details">
-                <h3>${product.name}</h3>
-                <p>Precio: $${product.price}</p>
-                <label for="color-${product.id}">Color:</label>
-                <select id="color-${product.id}" name="color">
-                    ${product.colors.map(color => `<option value="${color}">${color}</option>`).join('')}
-                </select>
-                <label for="size-${product.id}">Talla:</label>
-                <select id="size-${product.id}" name="size">
-                    ${product.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
-                </select>
-                <button onclick="addToCart(${product.id})">Añadir al Carrito</button>
-            </div>
+            <h2>${product.name}</h2>
+            <p>Price: $${product.price}</p>
+            <select class="color-selector">
+                ${product.colors.map(color => `<option value="${color}">${color}</option>`).join('')}
+            </select>
+            <select class="size-selector">
+                ${product.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
+            </select>
+            <button class="add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Add to Cart</button>
         `;
-        container.appendChild(productElement);
-    });
-}
 
-function addToCart(productId) {
-    // Implementa la lógica para añadir productos al carrito
-}
+        productsContainer.appendChild(productElement);
+    });
+
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const productId = e.target.dataset.id;
+            const productName = e.target.dataset.name;
+            const productPrice = e.target.dataset.price;
+            const color = e.target.closest('.product').querySelector('.color-selector').value;
+            const size = e.target.closest('.product').querySelector('.size-selector').value;
+            addToCart(productId, productName, productPrice, color, size);
+        });
+    });
+};
+
+const toggleCart = () => {
+    const cartContainer = document.getElementById('cart');
+    cartContainer.classList.toggle('active');
+};
+
+const addToCart = (id, name, price, color, size) => {
+    let cart = getCart();
+    const itemIndex = cart.findIndex(item => item.id === id && item.color === color && item.size === size);
+
+    if (itemIndex > -1) {
+        cart[itemIndex].quantity += 1;
+    } else {
+        cart.push({ id, name, price, color, size, quantity: 1 });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCart();
+};
