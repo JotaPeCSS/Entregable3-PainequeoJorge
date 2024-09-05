@@ -5,21 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Tienda</title>
     <link rel="stylesheet" href="./CSS/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
     <header>
-        <div id="cart-icon">
-            <img src="./images/cart-icon.png" alt="Carrito">
-            <span id="cart-count">0</span>
+        <div id="cart-icon" class="material-symbols-outlined">shopping_cart</div>
+        <div id="shopping-cart" class="hidden">
+            <h2>Carrito de Compras</h2>
+            <div id="cart-items"></div>
+            <button id="empty-cart">Vaciar Carrito</button>
+            <div id="total">
+                <span>Total: $</span><span id="total-amount">0.00</span>
+            </div>
+            <button id="checkout">Pagar</button>
         </div>
     </header>
-    <div id="products-container"></div>
-    <div id="shopping-cart" class="hidden">
-        <div id="cart-items"></div>
-        <button id="empty-cart" class="red-button">Vaciar Carrito</button>
-        <button id="pay" class="pay-button">Pagar</button>
-    </div>
+    <main>
+        <div id="products-container"></div>
+    </main>
     <script src="./JavaScript/script.js"></script>
     <script src="./JavaScript/shoppingCart.js"></script>
 </body>
