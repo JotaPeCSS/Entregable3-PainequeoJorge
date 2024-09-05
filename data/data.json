@@ -1,77 +1,26 @@
 [
-  {
-    "id": 1,
-    "product": "camiseta",
-    "description": "Camiseta de algodón cómoda y estilizada.",
-    "image": "./images/camiseta.png",
-    "price": 20,
-    "variants": [
-      {
-        "color": "rojo",
-        "size": "S"
-      },
-      {
-        "color": "rojo",
-        "size": "M"
-      },
-      {
-        "color": "azul",
-        "size": "L"
-      },
-      {
-        "color": "verde",
-        "size": "XL"
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "product": "chaqueta",
-    "description": "Chaqueta de alta calidad, ideal para el invierno.",
-    "image": "./images/chaqueta.png",
-    "price": 50,
-    "variants": [
-      {
-        "color": "rojo",
-        "size": "S"
-      },
-      {
-        "color": "azul",
-        "size": "M"
-      },
-      {
-        "color": "verde",
-        "size": "L"
-      },
-      {
-        "color": "amarillo",
-        "size": "XL"
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "product": "gorra",
-    "description": "Gorra unisex con ajuste perfecto.",
-    "image": "./images/gorra.png",
-    "price": 15,
-    "variants": [
-      {
-        "color": "rojo",
-        "size": "S"
-      },
-      {
-        "color": "azul",
-        "size": "M"
-      },
-      {
-        "color": "verde",
-        "size": "L"
-      },
-      {
-        "color": "amarillo",
-        "size": "XL"
-      }
-    ]
-  }
+    {
+        "id": "gorra",
+        "name": "Gorra",
+        "image": "./images/gorra.png",
+        "colors": ["rojo", "azul", "verde", "amarillo"],
+        "sizes": ["S", "M", "L"],
+        "price": 15.00
+    },
+    {
+        "id": "chaqueta",
+        "name": "Chaqueta",
+        "image": "./images/chaqueta.png",
+        "colors": ["rojo", "azul"],
+        "sizes": ["S", "M", "L", "XL"],
+        "price": 50.00
+    },
+    {
+        "id": "camiseta",
+        "name": "Camiseta",
+        "image": "./images/camiseta.png",
+        "colors": ["rojo", "azul", "verde"],
+        "sizes": ["S", "M"],
+        "price": 20.00
+    }
 ]
