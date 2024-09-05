@@ -9,6 +9,12 @@ async function fetchProductsAndDisplay() {
         displayProducts(products);
     } catch (error) {
         console.error('Error al cargar los productos:', error);
+        Swal.fire({
+            title: 'Error',
+            text: 'No se pudieron cargar los productos.',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+        });
     }
 }
 
