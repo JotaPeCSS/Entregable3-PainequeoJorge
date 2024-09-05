@@ -44,8 +44,9 @@ const displayProducts = (products) => {
             const productId = e.target.dataset.id;
             const productName = e.target.dataset.name;
             const productPrice = e.target.dataset.price;
-            const color = e.target.closest('.product').querySelector('.color-selector').value;
-            const size = e.target.closest('.product').querySelector('.size-selector').value;
+            const productElement = e.target.closest('.product');
+            const color = productElement.querySelector('.color-selector').value;
+            const size = productElement.querySelector('.size-selector').value;
             addToCart(productId, productName, productPrice, color, size);
         });
     });
