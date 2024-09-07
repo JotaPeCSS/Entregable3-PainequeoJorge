@@ -1,25 +1,14 @@
-{
-    "products": [
-        {
-            "id": 1,
-            "name": "Gorra",
-            "price": 10,
-            "colors": ["Rojo", "Azul", "Verde", "Amarillo"],
-            "sizes": ["Pequeña", "Mediana", "Grande"]
-        },
-        {
-            "id": 2,
-            "name": "Camiseta",
-            "price": 20,
-            "colors": ["Blanco", "Negro", "Gris"],
-            "sizes": ["M", "L"]
-        },
-        {
-            "id": 3,
-            "name": "Chaqueta",
-            "price": 30,
-            "colors": ["Negro", "Marrón"],
-            "sizes": ["S", "M", "L", "XL"]
-        }
-    ]
-}
+[
+    {
+        "id": "1",
+        "name": "Chaqueta Negra",
+        "price": 50.00,
+        "image": "chaqueta-negra.jpg"
+    },
+    {
+        "id": "2",
+        "name": "Gorra Roja",
+        "price": 20.00,
+        "image": "gorra-roja.jpg"
+    }
+]
