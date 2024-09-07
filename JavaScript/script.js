@@ -2,15 +2,24 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchProducts();
+    displayCart();
 });
 
 const fetchProducts = async () => {
     try {
         const response = await fetch('./data/products.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
         const products = await response.json();
         displayProducts(products);
     } catch (error) {
         console.error('Error al cargar los productos:', error);
+        Swal.fire({
+            title: 'Error',
+            text: 'No se pudo cargar la lista de productos.',
+            icon: 'error'
+        });
     }
 };
 
