@@ -30,6 +30,13 @@ function addToCart(productId) {
                 } else {
                     cart.push({ ...product, quantity: 1 });
                 }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Producto agregado',
+                    text: `Has añadido ${product.name} al carrito`,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
                 updateCartDisplay();
             }
         })
