@@ -1,137 +1,59 @@
 // shoppingCart.js
 
-// Función para añadir producto al carrito
+// Carrito de compras
+let cart = [];
+
+// Límite máximo de productos permitidos en el carrito
+const MAX_CART_ITEMS = 10;
+
+// Función para añadir productos al carrito
 function addToCart(productId) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let existingProductIndex = cart.findIndex(item => item.id === productId);
-
-    // Verifica el total de productos en el carrito
-    let totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-    if (totalQuantity >= 10) {
-        Swal.fire({
-            icon: 'warning',
-            title: '¡Límite Alcanzado!',
-            text: 'No puedes añadir más de 10 productos en total.',
-        });
-        return;
-    }
-
-    if (existingProductIndex > -1) {
-        // Si el producto ya está en el carrito, incrementamos la cantidad
-        if (cart[existingProductIndex].quantity < 10) {
-            cart[existingProductIndex].quantity += 1;
-        } else {
-            Swal.fire({
-                icon: 'warning',
-                title: '¡Límite Alcanzado para este Producto!',
-                text: 'No puedes añadir más de 10 unidades del mismo producto.',
-            });
-            return;
-        }
-    } else {
-        // Si el producto no está en el carrito, lo añadimos con cantidad 1
-        cart.push({ id: productId, quantity: 1 });
-    }
-
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCart();  // Actualiza el carrito después de añadir el producto
-}
-
-// Función para actualizar el carrito
-function updateCart() {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let cartList = document.getElementById('cartList');
-    let cartTotal = document.getElementById('cartTotal');
-    
-    cartList.innerHTML = '';
-    let total = 0;
-
     fetch('./data/data.json')
         .then(response => response.json())
         .then(products => {
-            if (Array.isArray(products) && products.length) {
-                cart.forEach(cartItem => {
-                    let product = products.find(p => p.id === cartItem.id);
-                    if (product) {
-                        cartList.innerHTML += `
-                            <li>
-                                ${product.name} - $${product.price} x ${cartItem.quantity}
-                                <button onclick="removeFromCart('${cartItem.id}')">Eliminar</button>
-                            </li>
-                        `;
-                        total += product.price * cartItem.quantity;
-                    }
+            const product = products.find(p => p.id === productId);
+
+            // Verificar si el carrito tiene el producto
+            const cartItem = cart.find(item => item.id === productId);
+
+            const totalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+            if (totalQuantity >= MAX_CART_ITEMS) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Límite alcanzado',
+                    text: 'No puedes añadir más de 10 productos al carrito'
                 });
-                cartTotal.textContent = `Total: $${total}`;
             } else {
-                cartList.innerHTML = '<li>No hay productos en el carrito.</li>';
+                if (cartItem) {
+                    cartItem.quantity++;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                updateCartDisplay();
             }
         })
-        .catch(error => {
-            console.error('Error actualizando el carrito:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'No se pudo actualizar el carrito.',
-            });
+        .catch(error => console.error("Error al añadir al carrito:", error));
+}
+
+// Función para mostrar el contenido del carrito
+function updateCartDisplay() {
+    const cartElement = document.getElementById('shopping-cart');
+    cartElement.innerHTML = '';
+
+    if (cart.length === 0) {
+        cartElement.innerHTML = '<p>El carrito está vacío</p>';
+    } else {
+        cart.forEach(item => {
+            const cartItemElement = document.createElement('div');
+            cartItemElement.classList.add('cart-item');
+
+            cartItemElement.innerHTML = `
+                <p>${item.name} x ${item.quantity}</p>
+                <p>Total: $${item.price * item.quantity}</p>
+            `;
+
+            cartElement.appendChild(cartItemElement);
         });
+    }
 }
-
-// Función para eliminar producto del carrito
-function removeFromCart(productId) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let updatedCart = cart.filter(item => item.id !== productId);
-    
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-    updateCart();  // Actualiza el carrito después de eliminar el producto
-}
-
-// Función para vaciar el carrito
-document.getElementById('emptyCart').addEventListener('click', () => {
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "¡Esto eliminará todos los productos del carrito!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, vaciar carrito'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            localStorage.removeItem('cart');
-            updateCart();  // Actualiza el carrito después de vaciarlo
-            Swal.fire(
-                'Vacío',
-                'El carrito ha sido vaciado.',
-                'success'
-            );
-        }
-    });
-});
-
-// Función para finalizar la compra
-document.getElementById('checkout').addEventListener('click', () => {
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "¿Deseas finalizar la compra?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, finalizar compra'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            localStorage.removeItem('cart');
-            updateCart();  // Actualiza el carrito después de finalizar la compra
-            Swal.fire(
-                'Gracias',
-                'Tu compra ha sido finalizada.',
-                'success'
-            );
-        }
-    });
-}
-
-// Actualiza el carrito al cargar la página
-updateCart();
