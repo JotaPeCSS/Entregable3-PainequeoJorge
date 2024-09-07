@@ -1,20 +1,20 @@
 [
-  {
-    "id": 1,
-    "name": "Producto 1",
-    "price": 100,
-    "image": "product1.jpg"
-  },
-  {
-    "id": 2,
-    "name": "Producto 2",
-    "price": 200,
-    "image": "product2.jpg"
-  },
-  {
-    "id": 3,
-    "name": "Producto 3",
-    "price": 300,
-    "image": "product3.jpg"
-  }
+    {
+        "id": 1,
+        "name": "Producto 1",
+        "price": 10.00,
+        "image": "product1.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Producto 2",
+        "price": 15.00,
+        "image": "product2.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Producto 3",
+        "price": 20.00,
+        "image": "product3.jpg"
+    }
 ]
