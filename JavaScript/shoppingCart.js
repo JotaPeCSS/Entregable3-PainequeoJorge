@@ -45,7 +45,7 @@ function updateCart() {
     cartList.innerHTML = '';
     let total = 0;
 
-    fetch('data/data.json')  // Ruta correcta del archivo JSON
+    fetch('./data/data.json')  // Ruta actualizada
         .then(response => response.json())
         .then(products => {
             if (Array.isArray(products) && products.length) {
