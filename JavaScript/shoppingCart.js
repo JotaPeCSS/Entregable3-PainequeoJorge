@@ -35,7 +35,7 @@ function addToCart(productId) {
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
-    updateCart();
+    updateCart();  // Actualiza el carrito después de añadir el producto
 }
 
 // Función para actualizar el carrito
@@ -84,7 +84,7 @@ function removeFromCart(productId) {
     let updatedCart = cart.filter(item => item.id !== productId);
     
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    updateCart();
+    updateCart();  // Actualiza el carrito después de eliminar el producto
 }
 
 // Función para vaciar el carrito
@@ -100,7 +100,7 @@ document.getElementById('emptyCart').addEventListener('click', () => {
     }).then((result) => {
         if (result.isConfirmed) {
             localStorage.removeItem('cart');
-            updateCart();
+            updateCart();  // Actualiza el carrito después de vaciarlo
             Swal.fire(
                 'Vacío',
                 'El carrito ha sido vaciado.',
@@ -123,7 +123,7 @@ document.getElementById('checkout').addEventListener('click', () => {
     }).then((result) => {
         if (result.isConfirmed) {
             localStorage.removeItem('cart');
-            updateCart();
+            updateCart();  // Actualiza el carrito después de finalizar la compra
             Swal.fire(
                 'Gracias',
                 'Tu compra ha sido finalizada.',
