@@ -1,20 +1,20 @@
+/* Estilos básicos para la página */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
+    background-color: #f4f4f4;
+    padding: 10px;
     text-align: center;
 }
 
 main {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 20px;
 }
 
@@ -22,11 +22,17 @@ main {
     width: 45%;
 }
 
+#productList {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .product {
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px;
     padding: 10px;
-    margin-bottom: 10px;
-    text-align: center;
+    width: calc(33% - 20px);
 }
 
 .product img {
@@ -35,16 +41,5 @@ main {
 }
 
 button {
-    padding: 10px 20px;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-#cartList li {
-    margin-bottom: 10px;
+    margin: 5px;
 }
