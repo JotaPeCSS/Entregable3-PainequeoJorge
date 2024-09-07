@@ -3,21 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Compra</title>
+    <title>Simulador Interactivo</title>
     <link rel="stylesheet" href="CSS/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Simulador de Compra</h1>
-        <div id="productList"></div>
-        <div id="cart">
-            <h2>Carrito de Compras</h2>
-            <ul id="cartList"></ul>
-            <p id="cartTotal">Total: $0</p>
-            <button id="emptyCart">Vaciar Carrito</button>
-            <button id="checkout">Finalizar Compra</button>
-        </div>
+    <div id="productList"></div>
+    <div id="shoppingCart">
+        <h2>Carrito de Compras</h2>
+        <ul id="cartList"></ul>
+        <p id="cartTotal">Total: $0</p>
+        <button id="emptyCart">Vaciar Carrito</button>
+        <button id="checkout">Finalizar Compra</button>
     </div>
     <script src="JavaScript/script.js"></script>
     <script src="JavaScript/shoppingCart.js"></script>
