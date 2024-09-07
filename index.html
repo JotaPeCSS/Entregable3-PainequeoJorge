@@ -4,28 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda de Productos</title>
-    <link rel="stylesheet" href="./CSS/styles.css">
+    <link rel="stylesheet" href="CSS/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
         <h1>Tienda de Productos</h1>
-        <button id="view-cart-btn">Ver Carrito</button>
     </header>
     <main>
-        <section id="product-list">
-            <!-- Los productos se cargarán aquí -->
-        </section>
+        <section id="product-list"></section>
+        <aside id="cart">
+            <h2>Carrito</h2>
+            <div id="cart-list"></div>
+            <div id="cart-total">Total: $0.00</div>
+            <button onclick="checkout()">Comprar</button>
+        </aside>
     </main>
-    <aside id="cart" style="display:none;">
-        <h2>Carrito de Compras</h2>
-        <div id="cart-items">
-            <!-- Los productos en el carrito se mostrarán aquí -->
-        </div>
-        <button id="empty-cart-btn">Vaciar Carrito</button>
-        <button id="checkout-btn">Finalizar Compra</button>
-    </aside>
-    <script src="./JavaScript/script.js"></script>
-    <script src="./JavaScript/shoppingCart.js"></script>
+    <script src="JavaScript/script.js"></script>
+    <script src="JavaScript/shoppingCart.js"></script>
 </body>
 </html>
