@@ -1,104 +1,116 @@
-/* styles.css */
+/* Estilo general del body */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-/* Contenedor de productos */
+/* Estilo para el contenedor de productos */
 .products-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 20px;
     margin: 20px;
 }
 
+/* Estilo para cada producto */
 .product {
     border: 1px solid #ccc;
-    padding: 10px;
     border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
     text-align: center;
-    width: 200px;
+    width: 250px;
 }
 
+/* Estilo para las imágenes de los productos */
 .product img {
     max-width: 100%;
     height: auto;
 }
 
-.product button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.product button:hover {
-    background-color: #0056b3;
-}
-
-/* Carrito de compras */
-.cart {
+/* Estilo para el contenedor del carrito */
+.cart-container {
     position: fixed;
     right: 0;
     top: 0;
     width: 300px;
-    height: 100%;
-    background: #fff;
-    border-left: 1px solid #ccc;
-    padding: 20px;
-    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
-    display: none; /* Inicialmente oculto */
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
     overflow-y: auto;
+    z-index: 1000;
 }
 
-.cart-items {
-    max-height: 80%;
-    overflow-y: auto;
-}
-
-.cart-item {
+/* Estilo para el encabezado del carrito */
+#cart-header {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
 }
 
-.remove-item {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.remove-item:hover {
-    background: #c82333;
-}
-
-.clear-cart {
-    background-color: #dc3545;
-    color: white;
+/* Estilo para el botón de vaciar carrito */
+.btn-empty {
+    background-color: red;
+    color: #fff;
     border: none;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
 }
 
-.clear-cart:hover {
-    background-color: #c82333;
+/* Estilo para el contenedor de items del carrito */
+#cart-items {
+    padding: 15px;
 }
 
-/* Icono de carrito */
-.cart-icon {
-    position: fixed;
-    right: 20px;
-    top: 20px;
+/* Estilo para cada item en el carrito */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Estilo para el pie del carrito */
+#cart-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    border-top: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+/* Estilo para el botón de pagar */
+.btn-pay {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-.cart-icon img {
-    width: 50px;
-    height: 50px;
+/* Estilo para el icono del carrito */
+.cart-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+/* Estilo para los botones de ajustar cantidad en el carrito */
+.adjust-quantity {
+    background-color: #ccc;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
