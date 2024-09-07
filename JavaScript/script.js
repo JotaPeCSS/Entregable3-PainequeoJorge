@@ -12,7 +12,11 @@ function loadProducts() {
         })
         .catch(error => {
             console.error('Error cargando los productos:', error);
-            document.getElementById('productList').innerHTML = 'No se pudieron cargar los productos.';
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudieron cargar los productos.'
+            });
         });
 }
 
