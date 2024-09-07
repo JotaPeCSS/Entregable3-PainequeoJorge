@@ -1,9 +1,11 @@
 // Función para añadir producto al carrito
 function addToCart(productId) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push(productId);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCart();
+    if (!cart.includes(productId)) {
+        cart.push(productId);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCart();
+    }
 }
 
 // Función para actualizar el carrito
@@ -15,10 +17,10 @@ function updateCart() {
     cartList.innerHTML = '';
     let total = 0;
 
-    cart.forEach(productId => {
-        fetch('data.json')
-            .then(response => response.json())
-            .then(products => {
+    fetch('data.json')
+        .then(response => response.json())
+        .then(products => {
+            cart.forEach(productId => {
                 let product = products.find(p => p.id === productId);
                 if (product) {
                     cartList.innerHTML += `
@@ -30,9 +32,8 @@ function updateCart() {
                     total += product.price;
                 }
             });
-    });
-
-    cartTotal.textContent = `Total: $${total}`;
+            cartTotal.textContent = `Total: $${total}`;
+        });
 }
 
 // Función para eliminar producto del carrito
