@@ -6,7 +6,6 @@ function loadProducts() {
             const productList = document.getElementById('productList');
             productList.innerHTML = '';
 
-            // Verifica que products sea un array y tenga elementos
             if (Array.isArray(products) && products.length) {
                 products.forEach(product => {
                     productList.innerHTML += `
