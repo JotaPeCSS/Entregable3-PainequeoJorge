@@ -13,8 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error al cargar los productos:", error);
             Swal.fire({
                 icon: 'error',
-                title: 'Error al cargar los productos',
-                text: error.message
+                title: 'Error al cargar productos',
+                text: error.message,
+                confirmButtonText: 'Cerrar',
+                background: '#f8d7da',
+                color: '#721c24'
             });
         });
 });
