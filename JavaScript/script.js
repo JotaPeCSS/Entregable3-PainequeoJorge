@@ -2,7 +2,7 @@
 
 const fetchProducts = async () => {
     try {
-        const response = await fetch('./data/products.json');
+        const response = await fetch('./data/data.json');
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
         displayProducts(data);
