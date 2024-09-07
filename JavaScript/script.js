@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const fetchProducts = async () => {
     try {
         // Asegúrate de que la ruta del archivo JSON sea correcta
-        const response = await fetch('./data/products.json');
+        const response = await fetch('./data/data.json');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
