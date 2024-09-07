@@ -1,6 +1,6 @@
 // Función para cargar productos
 function loadProducts() {
-    fetch('data.json')
+    fetch('data/data.json')  // Ruta correcta del archivo JSON
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la carga de productos');
