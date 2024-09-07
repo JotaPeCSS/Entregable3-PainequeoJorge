@@ -83,12 +83,12 @@ document.getElementById('checkout').addEventListener('click', () => {
             updateCart();
             Swal.fire(
                 'Gracias',
-                '¡Gracias por tu compra!',
+                'Tu compra ha sido finalizada.',
                 'success'
             );
         }
     });
 });
 
-// Actualizar carrito al iniciar
+// Actualiza el carrito al cargar la página
 updateCart();
