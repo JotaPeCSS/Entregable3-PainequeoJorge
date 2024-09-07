@@ -3,31 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Tienda</title>
-    <link rel="stylesheet" href="./CSS/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <title>Tienda Online</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
-    <!-- Carrito -->
-    <div id="cart" class="cart">
-        <div id="cart-items" class="cart-items"></div>
-        <button id="clear-cart" class="clear-cart">Vaciar carrito</button>
-        <div class="total">
-            <span>Total:</span>
-            <span id="total-amount">0.00</span>
+    <!-- Carrito de compras -->
+    <div id="cart-container" class="cart-container">
+        <div id="cart-header">
+            <span>Carrito</span>
+            <button id="empty-cart" class="btn-empty">Vaciar Carrito</button>
+        </div>
+        <div id="cart-items"></div>
+        <div id="cart-footer">
+            <span id="total">Total: 0.00 USD</span>
+            <button id="pay" class="btn-pay">Pagar</button>
         </div>
     </div>
-    
-    <!-- Productos -->
-    <div id="products-container" class="products-container"></div>
-    
-    <!-- Carrito de compras (icono) -->
+
+    <!-- Icono de carrito -->
     <div id="cart-icon" class="cart-icon">
         <img src="./images/cart-icon.png" alt="Carrito">
     </div>
 
-    <script src="./JavaScript/script.js"></script>
-    <script src="./JavaScript/shoppingCart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <!-- Contenedor de productos -->
+    <div id="products-container" class="products-container"></div>
+
+    <script src="./script.js"></script>
+    <script src="./shoppingCart.js"></script>
 </body>
 </html>
