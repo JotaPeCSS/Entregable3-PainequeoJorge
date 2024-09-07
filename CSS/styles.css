@@ -6,7 +6,7 @@ body {
 }
 
 header {
-    background: #333;
+    background-color: #333;
     color: #fff;
     padding: 10px 0;
     text-align: center;
@@ -15,46 +15,36 @@ header {
 main {
     display: flex;
     justify-content: space-between;
-    margin: 20px;
+    padding: 20px;
 }
 
-#productList {
-    flex: 3;
+#products, #cart {
+    width: 45%;
 }
 
-#productList .product {
-    border: 1px solid #ddd;
-    margin-bottom: 20px;
+.product {
+    border: 1px solid #ccc;
     padding: 10px;
-    border-radius: 5px;
-}
-
-#productList .product img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-}
-
-#productList .product button {
-    margin-top: 10px;
-}
-
-#cart {
-    flex: 1;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-#cart ul {
-    list-style: none;
-    padding: 0;
-}
-
-#cart ul li {
     margin-bottom: 10px;
+    text-align: center;
 }
 
-#cart button {
+.product img {
+    max-width: 100%;
+    height: auto;
+}
+
+button {
+    padding: 10px 20px;
     margin-top: 10px;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#cartList li {
+    margin-bottom: 10px;
 }
