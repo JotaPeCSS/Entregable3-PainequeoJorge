@@ -48,19 +48,31 @@ function updateCart() {
     fetch('data/data.json')  // Ruta correcta del archivo JSON
         .then(response => response.json())
         .then(products => {
-            cart.forEach(cartItem => {
-                let product = products.find(p => p.id === cartItem.id);
-                if (product) {
-                    cartList.innerHTML += `
-                        <li>
-                            ${product.name} - $${product.price} x ${cartItem.quantity}
-                            <button onclick="removeFromCart('${cartItem.id}')">Eliminar</button>
-                        </li>
-                    `;
-                    total += product.price * cartItem.quantity;
-                }
+            if (Array.isArray(products) && products.length) {
+                cart.forEach(cartItem => {
+                    let product = products.find(p => p.id === cartItem.id);
+                    if (product) {
+                        cartList.innerHTML += `
+                            <li>
+                                ${product.name} - $${product.price} x ${cartItem.quantity}
+                                <button onclick="removeFromCart('${cartItem.id}')">Eliminar</button>
+                            </li>
+                        `;
+                        total += product.price * cartItem.quantity;
+                    }
+                });
+                cartTotal.textContent = `Total: $${total}`;
+            } else {
+                cartList.innerHTML = '<li>No hay productos en el carrito.</li>';
+            }
+        })
+        .catch(error => {
+            console.error('Error actualizando el carrito:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo actualizar el carrito.',
             });
-            cartTotal.textContent = `Total: $${total}`;
         });
 }
 
