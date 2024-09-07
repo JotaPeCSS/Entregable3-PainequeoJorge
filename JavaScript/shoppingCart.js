@@ -17,7 +17,7 @@ function updateCart() {
     cartList.innerHTML = '';
     let total = 0;
 
-    fetch('data.json')
+    fetch('data/data.json')  // Ruta correcta del archivo JSON
         .then(response => response.json())
         .then(products => {
             cart.forEach(productId => {
