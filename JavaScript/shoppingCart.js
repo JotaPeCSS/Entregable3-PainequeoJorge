@@ -1,11 +1,39 @@
 // Función para añadir producto al carrito
 function addToCart(productId) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    if (!cart.includes(productId)) {
-        cart.push(productId);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCart();
+    let existingProductIndex = cart.findIndex(item => item.id === productId);
+
+    // Verifica el total de productos en el carrito
+    let totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    if (totalQuantity >= 10) {
+        Swal.fire({
+            icon: 'warning',
+            title: '¡Límite Alcanzado!',
+            text: 'No puedes añadir más de 10 productos en total.',
+        });
+        return;
     }
+
+    if (existingProductIndex > -1) {
+        // Si el producto ya está en el carrito, incrementamos la cantidad
+        if (cart[existingProductIndex].quantity < 10) {
+            cart[existingProductIndex].quantity += 1;
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: '¡Límite Alcanzado para este Producto!',
+                text: 'No puedes añadir más de 10 unidades del mismo producto.',
+            });
+            return;
+        }
+    } else {
+        // Si el producto no está en el carrito, lo añadimos con cantidad 1
+        cart.push({ id: productId, quantity: 1 });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCart();
 }
 
 // Función para actualizar el carrito
@@ -20,16 +48,16 @@ function updateCart() {
     fetch('data/data.json')  // Ruta correcta del archivo JSON
         .then(response => response.json())
         .then(products => {
-            cart.forEach(productId => {
-                let product = products.find(p => p.id === productId);
+            cart.forEach(cartItem => {
+                let product = products.find(p => p.id === cartItem.id);
                 if (product) {
                     cartList.innerHTML += `
                         <li>
-                            ${product.name} - $${product.price}
-                            <button onclick="removeFromCart('${productId}')">Eliminar</button>
+                            ${product.name} - $${product.price} x ${cartItem.quantity}
+                            <button onclick="removeFromCart('${cartItem.id}')">Eliminar</button>
                         </li>
                     `;
-                    total += product.price;
+                    total += product.price * cartItem.quantity;
                 }
             });
             cartTotal.textContent = `Total: $${total}`;
@@ -39,8 +67,9 @@ function updateCart() {
 // Función para eliminar producto del carrito
 function removeFromCart(productId) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart = cart.filter(id => id !== productId);
-    localStorage.setItem('cart', JSON.stringify(cart));
+    let updatedCart = cart.filter(item => item.id !== productId);
+    
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
     updateCart();
 }
 
@@ -70,9 +99,9 @@ document.getElementById('emptyCart').addEventListener('click', () => {
 // Función para finalizar la compra
 document.getElementById('checkout').addEventListener('click', () => {
     Swal.fire({
-        title: 'Finalizar Compra',
-        text: "¿Estás seguro de que quieres finalizar la compra?",
-        icon: 'question',
+        title: '¿Estás seguro?',
+        text: "¿Deseas finalizar la compra?",
+        icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -88,7 +117,7 @@ document.getElementById('checkout').addEventListener('click', () => {
             );
         }
     });
-});
+}
 
 // Actualiza el carrito al cargar la página
 updateCart();
