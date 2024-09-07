@@ -16,7 +16,6 @@ function updateCart() {
     let total = 0;
 
     cart.forEach(productId => {
-        // Aquí asumimos que tienes una función para obtener el producto por ID
         fetch('data.json')
             .then(response => response.json())
             .then(products => {
