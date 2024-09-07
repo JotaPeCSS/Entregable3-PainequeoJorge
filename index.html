@@ -3,92 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda Web</title>
+    <title>Mi Tienda</title>
     <link rel="stylesheet" href="./CSS/styles.css">
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
-    <header>
-        <h1>Tienda de Productos</h1>
-        <div id="cart-icon" class="cart-icon">
-            <span class="material-symbols-outlined">shopping_cart</span>
-            <span id="cart-count" class="cart-count">0</span>
+    <!-- Carrito -->
+    <div id="cart" class="cart">
+        <div id="cart-items" class="cart-items"></div>
+        <button id="clear-cart" class="clear-cart">Vaciar carrito</button>
+        <div class="total">
+            <span>Total:</span>
+            <span id="total-amount">0.00</span>
         </div>
-    </header>
-
-    <main>
-        <section class="product-list">
-            <div class="product">
-                <img src="./images/gorra.png" alt="Gorra">
-                <h2>Gorra</h2>
-                <p>Precio: $10</p>
-                <label for="color-gorra">Color:</label>
-                <select id="color-gorra">
-                    <option value="rojo">Rojo</option>
-                    <option value="azul">Azul</option>
-                    <option value="verde">Verde</option>
-                    <option value="amarillo">Amarillo</option>
-                </select>
-                <label for="size-gorra">Talla:</label>
-                <select id="size-gorra">
-                    <option value="pequena">Pequeña</option>
-                    <option value="mediana">Mediana</option>
-                    <option value="grande">Grande</option>
-                </select>
-                <button class="add-to-cart" data-product-id="1">Agregar al carrito</button>
-            </div>
-
-            <div class="product">
-                <img src="./images/camiseta.png" alt="Camiseta">
-                <h2>Camiseta</h2>
-                <p>Precio: $20</p>
-                <label for="color-camiseta">Color:</label>
-                <select id="color-camiseta">
-                    <option value="blanco">Blanco</option>
-                    <option value="negro">Negro</option>
-                    <option value="gris">Gris</option>
-                </select>
-                <label for="size-camiseta">Talla:</label>
-                <select id="size-camiseta">
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                </select>
-                <button class="add-to-cart" data-product-id="2">Agregar al carrito</button>
-            </div>
-
-            <div class="product">
-                <img src="./images/chaqueta.png" alt="Chaqueta">
-                <h2>Chaqueta</h2>
-                <p>Precio: $30</p>
-                <label for="color-chaqueta">Color:</label>
-                <select id="color-chaqueta">
-                    <option value="negro">Negro</option>
-                    <option value="marron">Marrón</option>
-                </select>
-                <label for="size-chaqueta">Talla:</label>
-                <select id="size-chaqueta">
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                    <option value="XL">XL</option>
-                </select>
-                <button class="add-to-cart" data-product-id="3">Agregar al carrito</button>
-            </div>
-        </section>
-
-        <aside id="cart-container" class="cart-container">
-            <h2>Carrito de Compras</h2>
-            <div id="cart-items"></div>
-            <div id="cart-total">
-                <p>Total: $<span id="total-amount">0.00</span></p>
-            </div>
-            <button id="empty-cart" class="empty-cart">Vaciar Carrito</button>
-            <button id="checkout" class="checkout">Pagar</button>
-        </aside>
-    </main>
+    </div>
+    
+    <!-- Productos -->
+    <div id="products-container" class="products-container"></div>
+    
+    <!-- Carrito de compras (icono) -->
+    <div id="cart-icon" class="cart-icon">
+        <img src="./images/cart-icon.png" alt="Carrito">
+    </div>
 
     <script src="./JavaScript/script.js"></script>
     <script src="./JavaScript/shoppingCart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>
