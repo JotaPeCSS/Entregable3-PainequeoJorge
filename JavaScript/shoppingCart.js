@@ -46,17 +46,48 @@ function removeFromCart(productId) {
 
 // Función para vaciar el carrito
 document.getElementById('emptyCart').addEventListener('click', () => {
-    localStorage.removeItem('cart');
-    updateCart();
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡Esto eliminará todos los productos del carrito!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, vaciar carrito'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.removeItem('cart');
+            updateCart();
+            Swal.fire(
+                'Vacío',
+                'El carrito ha sido vaciado.',
+                'success'
+            );
+        }
+    });
 });
 
 // Función para finalizar la compra
 document.getElementById('checkout').addEventListener('click', () => {
-    if (confirm('¿Estás seguro de que quieres finalizar la compra?')) {
-        localStorage.removeItem('cart');
-        updateCart();
-        alert('Gracias por tu compra!');
-    }
+    Swal.fire({
+        title: 'Finalizar Compra',
+        text: "¿Estás seguro de que quieres finalizar la compra?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, finalizar compra'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.removeItem('cart');
+            updateCart();
+            Swal.fire(
+                'Gracias',
+                '¡Gracias por tu compra!',
+                'success'
+            );
+        }
+    });
 });
 
 // Actualizar carrito al iniciar
