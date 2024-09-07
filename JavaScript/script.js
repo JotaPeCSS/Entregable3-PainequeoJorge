@@ -1,24 +1,22 @@
-// Función para cargar los productos desde el archivo JSON
-function loadProducts() {
-    fetch('data/data.json')  // Ruta correcta del archivo JSON
+// Cargar productos desde el archivo JSON
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('data/data.json')
         .then(response => response.json())
         .then(products => {
-            const productList = document.getElementById('productList');
-            productList.innerHTML = '';
-
             if (Array.isArray(products) && products.length) {
+                const productList = document.getElementById('productList');
                 products.forEach(product => {
                     productList.innerHTML += `
                         <div class="product">
-                            <img src="${product.image}" alt="${product.name}">
+                            <img src="assets/${product.image}" alt="${product.name}">
                             <h3>${product.name}</h3>
-                            <p>Precio: $${product.price}</p>
+                            <p>$${product.price}</p>
                             <button onclick="addToCart('${product.id}')">Añadir al Carrito</button>
                         </div>
                     `;
                 });
             } else {
-                productList.innerHTML = '<p>No se encontraron productos.</p>';
+                document.getElementById('productList').innerHTML = '<p>No hay productos disponibles.</p>';
             }
         })
         .catch(error => {
@@ -29,7 +27,4 @@ function loadProducts() {
                 text: 'No se pudieron cargar los productos.',
             });
         });
-}
-
-// Llamar a la función para cargar productos al iniciar
-loadProducts();
+});
