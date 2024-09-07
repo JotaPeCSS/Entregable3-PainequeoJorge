@@ -1,3 +1,5 @@
+// shoppingCart.js
+
 // Función para añadir producto al carrito
 function addToCart(productId) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -45,7 +47,7 @@ function updateCart() {
     cartList.innerHTML = '';
     let total = 0;
 
-    fetch('./data/data.json')  // Ruta actualizada
+    fetch('./data/data.json')
         .then(response => response.json())
         .then(products => {
             if (Array.isArray(products) && products.length) {
