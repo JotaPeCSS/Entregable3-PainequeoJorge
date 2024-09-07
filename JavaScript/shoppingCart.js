@@ -33,11 +33,14 @@ function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             const existingItem = cart.find(item => item.id === productId);
 
-            if (cart.length >= 10) {
+            if (cart.reduce((acc, item) => acc + item.quantity, 0) >= 10) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Límite de productos alcanzado',
-                    text: 'No puedes añadir más de 10 productos en total.'
+                    text: 'No puedes añadir más de 10 productos en total.',
+                    confirmButtonText: 'Cerrar',
+                    background: '#fff3cd',
+                    color: '#856404'
                 });
                 return;
             }
@@ -55,7 +58,10 @@ function addToCart(productId) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error al añadir al carrito',
-                text: error.message
+                text: error.message,
+                confirmButtonText: 'Cerrar',
+                background: '#f8d7da',
+                color: '#721c24'
             });
         });
 }
@@ -88,7 +94,10 @@ document.getElementById('checkout').addEventListener('click', () => {
     Swal.fire({
         icon: 'success',
         title: 'Compra realizada',
-        text: 'Gracias por tu compra. El carrito se ha vaciado.'
+        text: 'Gracias por tu compra. El carrito se ha vaciado.',
+        confirmButtonText: 'Cerrar',
+        background: '#d4edda',
+        color: '#155724'
     }).then(() => {
         cart = [];
         updateCart();
