@@ -1,66 +1,42 @@
-/* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
 header {
-    background-color: #333;
+    background: #333;
     color: #fff;
-    padding: 1rem;
+    padding: 10px 0;
     text-align: center;
 }
 
 main {
     display: flex;
-    justify-content: space-around;
-    padding: 2rem;
+    justify-content: space-between;
+    padding: 20px;
 }
 
-#products, #cart {
-    width: 45%;
+#product-list {
+    flex: 2;
 }
 
-#productList, #cartList {
-    list-style: none;
-}
-
-#productList li, #cartList li {
+#cart {
+    flex: 1;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background-color: #fff;
-    display: flex;
-    align-items: center;
+    padding: 10px;
 }
 
-#productList img {
-    margin-right: 1rem;
+#cart ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#cart li {
+    margin-bottom: 10px;
 }
 
 button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-button:hover {
-    background-color: #218838;
-}
-
-button:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
+    display: block;
+    margin: 10px 0;
 }
