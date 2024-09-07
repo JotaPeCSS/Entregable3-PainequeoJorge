@@ -6,16 +6,21 @@ function loadProducts() {
             const productList = document.getElementById('productList');
             productList.innerHTML = '';
 
-            products.forEach(product => {
-                productList.innerHTML += `
-                    <div class="product">
-                        <img src="${product.image}" alt="${product.name}">
-                        <h3>${product.name}</h3>
-                        <p>Precio: $${product.price}</p>
-                        <button onclick="addToCart('${product.id}')">Añadir al Carrito</button>
-                    </div>
-                `;
-            });
+            // Verifica que products sea un array y tenga elementos
+            if (Array.isArray(products) && products.length) {
+                products.forEach(product => {
+                    productList.innerHTML += `
+                        <div class="product">
+                            <img src="${product.image}" alt="${product.name}">
+                            <h3>${product.name}</h3>
+                            <p>Precio: $${product.price}</p>
+                            <button onclick="addToCart('${product.id}')">Añadir al Carrito</button>
+                        </div>
+                    `;
+                });
+            } else {
+                productList.innerHTML = '<p>No se encontraron productos.</p>';
+            }
         })
         .catch(error => {
             console.error('Error cargando los productos:', error);
