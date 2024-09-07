@@ -3,20 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador Interactivo</title>
-    <link rel="stylesheet" href="CSS/style.css">
+    <title>Simulador de Compra</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <div id="productList"></div>
-    <div id="shoppingCart">
-        <h2>Carrito de Compras</h2>
-        <ul id="cartList"></ul>
-        <p id="cartTotal">Total: $0</p>
-        <button id="emptyCart">Vaciar Carrito</button>
-        <button id="checkout">Finalizar Compra</button>
-    </div>
-    <script src="JavaScript/script.js"></script>
+    <header>
+        <h1>Simulador de Compra</h1>
+    </header>
+    <main>
+        <section id="productList">
+            <!-- Productos se cargarán dinámicamente aquí -->
+        </section>
+        <aside id="cart">
+            <h2>Carrito de Compras</h2>
+            <ul id="cartList"></ul>
+            <p id="cartTotal">Total: $0</p>
+            <button id="emptyCart">Vaciar Carrito</button>
+            <button id="checkout">Finalizar Compra</button>
+        </aside>
+    </main>
+    <script src="JavaScript/products.js"></script>
     <script src="JavaScript/shoppingCart.js"></script>
 </body>
 </html>
