@@ -20,7 +20,7 @@ function displayProducts(products) {
         productCard.classList.add('product-card');
 
         productCard.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
+            <img src="./assets/${product.image}" alt="${product.name}">
             <h3>${product.name}</h3>
             <p>$${product.price}</p>
             <button onclick="addToCart(${product.id})">Añadir al Carrito</button>
