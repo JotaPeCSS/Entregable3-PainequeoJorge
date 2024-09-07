@@ -1,94 +1,149 @@
 // JavaScript/shoppingCart.js
 
-const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-const updateCartUI = () => {
-    const cartItems = document.getElementById('cart-items');
-    const totalAmount = document.getElementById('total-amount');
-    cartItems.innerHTML = cart.map(item => `
-        <li>
-            ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}
-            <button onclick="updateQuantity(${item.id}, -1)">-</button>
-            <button onclick="updateQuantity(${item.id}, 1)">+</button>
-            <button onclick="removeFromCart(${item.id})">Eliminar</button>
-        </li>
-    `).join('');
-    totalAmount.textContent = calculateTotal().toFixed(2);
-};
-
+// Función para agregar un producto al carrito
 const addToCart = (productId) => {
-    fetch('./data/products.json')
-        .then(response => response.json())
-        .then(products => {
-            const product = products.find(p => p.id === productId);
-            const existingProduct = cart.find(p => p.id === productId);
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const product = fetchProductById(productId);
 
-            if (existingProduct) {
-                existingProduct.quantity += 1;
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
-
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartUI();
-        })
-        .catch(error => console.error('Error al añadir producto al carrito:', error));
-};
-
-const updateQuantity = (productId, delta) => {
-    const product = cart.find(p => p.id === productId);
     if (product) {
-        product.quantity += delta;
-        if (product.quantity <= 0) {
-            cart.splice(cart.indexOf(product), 1);
+        const existingProductIndex = cart.findIndex(item => item.id === productId);
+        if (existingProductIndex > -1) {
+            cart[existingProductIndex].quantity += 1;
+        } else {
+            cart.push({ ...product, quantity: 1 });
         }
         localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartUI();
+        displayCart();
+        Swal.fire({
+            title: 'Producto agregado',
+            text: `${product.name} ha sido añadido al carrito.`,
+            icon: 'success'
+        });
+    } else {
+        Swal.fire({
+            title: 'Error',
+            text: 'No se pudo agregar el producto al carrito.',
+            icon: 'error'
+        });
     }
 };
 
-const removeFromCart = (productId) => {
-    const index = cart.findIndex(p => p.id === productId);
-    if (index !== -1) {
-        cart.splice(index, 1);
+// Función para mostrar los productos en el carrito
+const displayCart = () => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartAside = document.getElementById('cart');
+
+    if (cart.length === 0) {
+        cartAside.style.display = 'none';
+    } else {
+        cartAside.style.display = 'block';
+        cartItemsContainer.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <img src="assets/${item.image}" alt="${item.name}" />
+                <h3>${item.name}</h3>
+                <p>$${item.price.toFixed(2)}</p>
+                <p>Quantity: ${item.quantity}</p>
+                <button onclick="increaseQuantity(${item.id})">+</button>
+                <button onclick="decreaseQuantity(${item.id})">-</button>
+                <button onclick="removeFromCart(${item.id})">Eliminar</button>
+            </div>
+        `).join('');
+    }
+};
+
+// Función para aumentar la cantidad de un producto en el carrito
+const increaseQuantity = (productId) => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const productIndex = cart.findIndex(item => item.id === productId);
+
+    if (productIndex > -1) {
+        cart[productIndex].quantity += 1;
         localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartUI();
+        displayCart();
     }
 };
 
-const calculateTotal = () => {
-    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+// Función para disminuir la cantidad de un producto en el carrito
+const decreaseQuantity = (productId) => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const productIndex = cart.findIndex(item => item.id === productId);
+
+    if (productIndex > -1) {
+        if (cart[productIndex].quantity > 1) {
+            cart[productIndex].quantity -= 1;
+            localStorage.setItem('cart', JSON.stringify(cart));
+        } else {
+            cart.splice(productIndex, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+        displayCart();
+    }
 };
 
+// Función para eliminar un producto del carrito
+const removeFromCart = (productId) => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const updatedCart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    displayCart();
+};
+
+// Función para vaciar el carrito
 const emptyCart = () => {
     localStorage.removeItem('cart');
-    cart.length = 0; // Vaciar el array del carrito
-    updateCartUI();
+    displayCart();
+    Swal.fire({
+        title: 'Carrito vacío',
+        text: 'El carrito ha sido vaciado.',
+        icon: 'info'
+    });
 };
 
+// Función para finalizar la compra
 const checkout = () => {
-    const total = calculateTotal();
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
     Swal.fire({
         title: 'Confirmar Compra',
-        text: `El total de su compra es $${total.toFixed(2)}. ¿Desea continuar con la compra?`,
+        text: `El total de su compra es $${totalAmount.toFixed(2)}. ¿Desea proceder con la compra?`,
         icon: 'question',
         showCancelButton: true,
-        confirmButtonText: 'Sí, Comprar',
+        confirmButtonText: 'Comprar',
         cancelButtonText: 'Cancelar'
-    }).then((result) => {
+    }).then(result => {
         if (result.isConfirmed) {
-            // Limpiar carrito y mostrar mensaje de agradecimiento
-            emptyCart();
+            localStorage.removeItem('cart');
+            displayCart();
             Swal.fire({
-                title: 'Gracias por tu compra!',
-                text: 'Tu pedido ha sido procesado exitosamente.',
+                title: 'Gracias por su compra',
+                text: 'Su compra ha sido procesada.',
                 icon: 'success'
             });
         }
     });
 };
 
+// Función auxiliar para obtener un producto por ID
+const fetchProductById = async (productId) => {
+    try {
+        const response = await fetch('./data/products.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const products = await response.json();
+        return products.find(product => product.id === productId);
+    } catch (error) {
+        console.error('Error al cargar los productos:', error);
+        return null;
+    }
+};
+
+// Event listeners para los botones
 document.getElementById('empty-cart-btn').addEventListener('click', emptyCart);
 document.getElementById('checkout-btn').addEventListener('click', checkout);
-
-updateCartUI();
+document.getElementById('view-cart-btn').addEventListener('click', () => {
+    const cartAside = document.getElementById('cart');
+    cartAside.style.display = cartAside.style.display === 'none' ? 'block' : 'none';
+});
