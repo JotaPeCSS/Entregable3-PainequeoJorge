@@ -3,32 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Carrito de Compras</title>
-    <link rel="stylesheet" href="./CSS/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <title>Tienda Online</title>
+    <link rel="stylesheet" href="./styles.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/shoppingCart.js" defer></script>
+    <script src="./js/products.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>Simulador de Carrito de Compras</h1>
+        <h1>Mi Tienda</h1>
     </header>
-
     <main>
-        <section id="products">
-            <h2>Productos</h2>
-            <div id="productList"></div>
-        </section>
-
-        <section id="cart">
-            <h2>Carrito de Compras</h2>
+        <section id="product-list"></section>
+        <aside id="cart">
+            <h2>Carrito</h2>
             <ul id="cartList"></ul>
             <p id="cartTotal">Total: $0</p>
             <button id="emptyCart">Vaciar Carrito</button>
             <button id="checkout">Finalizar Compra</button>
-        </section>
+        </aside>
     </main>
-
-    <script src="./JavaScript/script.js"></script>
-    <script src="./JavaScript/shoppingCart.js"></script>
 </body>
 </html>
