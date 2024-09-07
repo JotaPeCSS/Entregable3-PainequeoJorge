@@ -1,25 +1,25 @@
 # Simulador de Compra
 
-## Descripción
-
-Este es un simulador de compra en línea que permite a los usuarios añadir productos a un carrito, vaciar el carrito y finalizar la compra.
+Este es un simulador de compra simple que permite a los usuarios añadir productos a un carrito de compras, ver el contenido del carrito y finalizar la compra.
 
 ## Estructura del Proyecto
 
-- `index.html`: Documento principal HTML.
-- `styles.css`: Archivo de estilos CSS.
-- `script.js`: Archivo JavaScript principal que carga los productos.
-- `shoppingCart.js`: Archivo JavaScript para la gestión del carrito de compras.
-- `data.json`: Archivo JSON con los datos de los productos.
-- `assets/`: Carpeta para recursos multimedia.
+- **index.html**: Documento principal de la aplicación.
+- **css/style.css**: Estilos de la aplicación.
+- **javascript/script.js**: Código para cargar y mostrar productos.
+- **javascript/shoppingCart.js**: Código para manejar el carrito de compras.
+- **data.json**: Base de datos simulada de productos.
 
-## Instrucciones de Uso
+## Funcionalidades
 
-1. Abre `index.html` en un navegador.
-2. Añade productos al carrito usando el botón "Añadir al Carrito".
-3. Vacía el carrito usando el botón "Vaciar Carrito".
-4. Finaliza la compra usando el botón "Finalizar Compra".
+1. **Carga de Productos**: Los productos se cargan desde un archivo `data.json` y se muestran en la página.
+2. **Carrito de Compras**: Los usuarios pueden añadir productos al carrito, ver el contenido del carrito, eliminar productos individuales, vaciar el carrito o finalizar la compra.
+3. **Persistencia de Datos**: El contenido del carrito se guarda en el `localStorage` para que se mantenga entre sesiones.
 
-## Requisitos
+## Instrucciones
 
-Asegúrate de tener todos los archivos en la estructura mencionada y de que `data.json` esté en la raíz del proyecto.
+1. Coloca todos los archivos en las carpetas correspondientes.
+2. Abre `index.html` en un navegador web para probar la aplicación.
+
+Si tienes algún problema o pregunta, no dudes en contactarme.
+
