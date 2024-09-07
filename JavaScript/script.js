@@ -1,8 +1,7 @@
 // script.js
 
-// Cargar productos desde el archivo JSON y mostrarlos en la página
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('./data/data.json')
+    fetch('../data/data.json')
         .then(response => response.json())
         .then(products => {
             displayProducts(products);
