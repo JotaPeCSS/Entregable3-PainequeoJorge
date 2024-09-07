@@ -9,7 +9,7 @@ Este es un simulador de compra en línea que permite a los usuarios añadir prod
 - `index.html`: Documento principal HTML.
 - `styles.css`: Archivo de estilos CSS.
 - `script.js`: Archivo JavaScript principal que carga los productos.
-- `cart.js`: Archivo JavaScript para la gestión del carrito de compras.
+- `shoppingCart.js`: Archivo JavaScript para la gestión del carrito de compras.
 - `data.json`: Archivo JSON con los datos de los productos.
 - `assets/`: Carpeta para recursos multimedia.
 
