@@ -69,9 +69,26 @@ const emptyCart = () => {
             confirmButtonText: 'OK'
         });
     } else {
-        localStorage.removeItem('cart');
-        cart.length = 0; // Vaciar el array del carrito
-        updateCartUI();
+        Swal.fire({
+            title: 'Vaciar Carrito',
+            text: '¿Está seguro de que desea vaciar el carrito?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, Vaciar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('cart');
+                cart.length = 0; // Vaciar el array del carrito
+                updateCartUI();
+                Swal.fire({
+                    title: 'Carrito Vacío',
+                    text: 'El carrito ha sido vaciado.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
     }
 };
 
