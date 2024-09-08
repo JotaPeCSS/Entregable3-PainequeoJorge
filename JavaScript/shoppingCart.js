@@ -17,7 +17,7 @@ const updateCartUI = () => {
 };
 
 const addToCart = (productId) => {
-    fetch('./data/products.json')
+    fetch('./data/data.json')
         .then(response => response.json())
         .then(products => {
             const product = products.find(p => p.id === productId);
