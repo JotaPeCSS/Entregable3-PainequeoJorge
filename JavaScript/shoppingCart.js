@@ -6,6 +6,8 @@ const cart = JSON.parse(localStorage.getItem('cart')) || [];
 const updateCartUI = () => {
     const cartItems = document.getElementById('cart-items');
     const totalAmount = document.getElementById('total-amount');
+    
+    // Verifica si el carrito está vacío
     if (cart.length === 0) {
         cartItems.innerHTML = '<p>El carrito está vacío</p>';
     } else {
@@ -18,6 +20,8 @@ const updateCartUI = () => {
             </li>
         `).join('');
     }
+    
+    // Actualiza el total
     totalAmount.textContent = calculateTotal().toFixed(2);
 };
 
