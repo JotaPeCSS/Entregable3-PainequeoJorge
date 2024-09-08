@@ -5,14 +5,24 @@ const cart = JSON.parse(localStorage.getItem('cart')) || [];
 const updateCartUI = () => {
     const cartItems = document.getElementById('cart-items');
     const totalAmount = document.getElementById('total-amount');
-    cartItems.innerHTML = cart.map(item => `
-        <li>
-            ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}
-            <button onclick="updateQuantity(${item.id}, -1)">-</button>
-            <button onclick="updateQuantity(${item.id}, 1)">+</button>
-            <button onclick="removeFromCart(${item.id})">Eliminar</button>
-        </li>
-    `).join('');
+    const cartEmptyMessage = document.getElementById('cart-empty-message');
+
+    if (cart.length === 0) {
+        cartItems.style.display = 'none'; // Oculta la lista de productos del carrito
+        cartEmptyMessage.style.display = 'block'; // Muestra el mensaje de carrito vacío
+    } else {
+        cartItems.style.display = 'block'; // Muestra la lista de productos del carrito
+        cartEmptyMessage.style.display = 'none'; // Oculta el mensaje de carrito vacío
+        cartItems.innerHTML = cart.map(item => `
+            <li>
+                ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}
+                <button onclick="updateQuantity(${item.id}, -1)">-</button>
+                <button onclick="updateQuantity(${item.id}, 1)">+</button>
+                <button onclick="removeFromCart(${item.id})">Eliminar</button>
+            </li>
+        `).join('');
+    }
+
     totalAmount.textContent = calculateTotal().toFixed(2);
 };
 
