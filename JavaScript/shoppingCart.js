@@ -61,9 +61,18 @@ const calculateTotal = () => {
 };
 
 const emptyCart = () => {
-    localStorage.removeItem('cart');
-    cart.length = 0; // Vaciar el array del carrito
-    updateCartUI();
+    if (cart.length === 0) {
+        Swal.fire({
+            title: 'Carrito Vacío',
+            text: 'No hay productos en el carrito para vaciar.',
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
+    } else {
+        localStorage.removeItem('cart');
+        cart.length = 0; // Vaciar el array del carrito
+        updateCartUI();
+    }
 };
 
 const checkout = () => {
