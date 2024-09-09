@@ -32,7 +32,7 @@ function updateCart() {
 
 // Función para añadir al carrito
 function addToCart(productId, productName, productPrice, productColor) {
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     cartItems.push({ id: productId, name: productName, price: productPrice, color: productColor });
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
     updateCart();
