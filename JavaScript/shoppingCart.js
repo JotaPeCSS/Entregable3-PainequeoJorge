@@ -8,11 +8,9 @@ const updateCartUI = () => {
     const emptyCartMessage = document.getElementById('empty-cart-message');
     
     if (cart.length === 0) {
-        // Mostrar mensaje de carrito vacío
         emptyCartMessage.style.display = 'block';
         cartItems.innerHTML = '';
     } else {
-        // Ocultar mensaje de carrito vacío
         emptyCartMessage.style.display = 'none';
         cartItems.innerHTML = cart.map(item => `
             <li>
@@ -40,7 +38,7 @@ const addToCart = (productId) => {
                 cart.push({ ...product, quantity: 1 });
             }
 
-            localStorage.setItem('cart', JSON.stringify(cart));
+            updateLocalStorage();
             updateCartUI();
         })
         .catch(error => console.error('Error al añadir producto al carrito:', error));
@@ -53,7 +51,7 @@ const updateQuantity = (productId, delta) => {
         if (product.quantity <= 0) {
             cart.splice(cart.indexOf(product), 1);
         }
-        localStorage.setItem('cart', JSON.stringify(cart));
+        updateLocalStorage();
         updateCartUI();
     }
 };
@@ -62,7 +60,7 @@ const removeFromCart = (productId) => {
     const index = cart.findIndex(p => p.id === productId);
     if (index !== -1) {
         cart.splice(index, 1);
-        localStorage.setItem('cart', JSON.stringify(cart));
+        updateLocalStorage();
         updateCartUI();
     }
 };
@@ -72,33 +70,29 @@ const calculateTotal = () => {
 };
 
 const emptyCart = () => {
-    if (cart.length === 0) {
-        Swal.fire({
-            title: 'Carrito Vacío',
-            text: 'El carrito ya está vacío.',
-            icon: 'info',
-            confirmButtonText: 'OK'
-        });
-        return;
-    }
-    
     Swal.fire({
-        title: 'Confirmar Vacío de Carrito',
-        text: '¿Estás seguro de que deseas vaciar el carrito?',
+        title: 'Confirmar',
+        text: '¿Estás seguro de vaciar el carrito?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Sí, Vaciar',
+        confirmButtonText: 'Sí, vaciar',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            localStorage.removeItem('cart');
-            cart.length = 0; // Vaciar el array del carrito
+            cart.length = 0;
+            updateLocalStorage();
             updateCartUI();
+            Swal.fire('Carrito vacío', '', 'success');
         }
     });
 };
 
 const checkout = () => {
+    if (cart.length === 0) {
+        Swal.fire('Carrito vacío', 'Agrega productos antes de continuar.', 'info');
+        return;
+    }
+
     const total = calculateTotal();
     Swal.fire({
         title: 'Confirmar Compra',
@@ -109,11 +103,10 @@ const checkout = () => {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            // Limpiar carrito y mostrar mensaje de agradecimiento y suscripción
             emptyCart();
             Swal.fire({
                 title: 'Gracias por tu compra!',
-                text: 'Tu pedido ha sido procesado exitosamente. ¿Te gustaría recibir más ofertas? Déjanos tu correo para recibir noticias.',
+                text: 'Tu pedido ha sido procesado exitosamente. ¿Te gustaría recibir más ofertas? Déjanos tu correo.',
                 icon: 'success',
                 input: 'email',
                 inputPlaceholder: 'Ingresa tu correo electrónico',
@@ -122,16 +115,18 @@ const checkout = () => {
                 cancelButtonText: 'No, gracias'
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
-                    // Aquí puedes manejar el envío del correo electrónico
-                    Swal.fire('¡Gracias!', 'Tu correo ha sido registrado para recibir más ofertas.', 'success');
+                    Swal.fire('¡Gracias!', 'Tu correo ha sido registrado.', 'success');
                 }
             });
         }
     });
 };
 
+const updateLocalStorage = () => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+};
+
 document.getElementById('empty-cart-btn').addEventListener('click', emptyCart);
 document.getElementById('checkout-btn').addEventListener('click', checkout);
 
-// Llamar a updateCartUI para inicializar la interfaz del carrito
-updateCartUI();
+updateCartUI(); // Inicializa la interfaz del carrito al cargar la página
