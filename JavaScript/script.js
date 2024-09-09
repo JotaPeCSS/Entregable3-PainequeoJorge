@@ -1,4 +1,4 @@
-// script.js
+// JavaScript/script.js
 
 // Función para mostrar productos
 async function loadProducts() {
@@ -14,7 +14,7 @@ async function loadProducts() {
             const productDiv = document.createElement('div');
             productDiv.className = 'product';
             productDiv.innerHTML = `
-                <img src="assets/${product.image}" alt="${product.name}">
+                <img src="./assets/${product.image}" alt="${product.name}">
                 <h3>${product.name}</h3>
                 <p>$${product.price.toFixed(2)}</p>
                 <div class="color-options">
@@ -41,4 +41,10 @@ function selectColor(productId, color, element) {
     element.classList.add('selected');
     // Cambiar el color seleccionado en la UI si es necesario
     console.log(`Color ${color} seleccionado para el producto ${productId}`);
+}
+
+// Función para añadir al carrito (Placeholder)
+function addToCart(productId, productName, productPrice, productColor) {
+    console.log(`Añadido al carrito: ${productName}, Color: ${productColor}`);
+    // Aquí se integrará la lógica para añadir al carrito
 }
