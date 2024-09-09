@@ -11,13 +11,13 @@
         "name": "Producto 2",
         "price": 49.99,
         "image": "product2.jpg",
-        "colors": ["#0000FF", "#00FF00"]  // Azul y Verde
+        "colors": ["#0000FF", "#00FF00"]  // Azul, Verde
     },
     {
         "id": "product3",
         "name": "Producto 3",
         "price": 19.99,
         "image": "product3.jpg",
-        "colors": ["#FFFF00", "#FF00FF", "#00FFFF"]  // Amarillo, Magenta y Cian
+        "colors": ["#FFFF00", "#FF0000", "#00FF00"]  // Amarillo, Rojo, Verde
     }
 ]
