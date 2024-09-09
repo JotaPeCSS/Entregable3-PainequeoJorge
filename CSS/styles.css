@@ -118,6 +118,7 @@ button:hover {
     font-style: italic;
     text-align: center;
     margin-top: 20px;
+    display: none; /* Ocultar por defecto */
 }
 
 /* Estilo de los colores del producto */
@@ -132,6 +133,11 @@ button:hover {
     border-radius: 50%;
     margin-right: 10px;
     cursor: pointer;
+    border: 2px solid #ddd; /* Borde para los colores */
+}
+
+.product-colors span.selected {
+    border: 2px solid #4CAF50; /* Borde verde para el color seleccionado */
 }
 
 .color-rojo {
