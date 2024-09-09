@@ -51,20 +51,61 @@ const calculateTotal = () => {
 };
 
 document.getElementById('empty-cart-btn').addEventListener('click', () => {
-    localStorage.removeItem('cart');
-    cart.length = 0; // Clear cart array
-    updateCartUI();
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Vas a vaciar el carrito.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#007bff',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, vaciar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.removeItem('cart');
+            cart.length = 0; // Clear cart array
+            updateCartUI();
+            Swal.fire(
+                'Vaciado!',
+                'El carrito ha sido vaciado.',
+                'success'
+            );
+        }
+    });
 });
 
 document.getElementById('checkout-btn').addEventListener('click', () => {
     if (cart.length === 0) {
-        alert('El carrito está vacío.');
+        Swal.fire({
+            icon: 'info',
+            title: 'Carrito vacío',
+            text: 'El carrito está vacío.',
+        });
         return;
     }
     
-    // Simular el proceso de compra
-    localStorage.removeItem('cart');
-    cart.length = 0; // Clear cart array
-    updateCartUI();
-    alert('Gracias por tu compra!');
+    Swal.fire({
+        title: 'Confirmar compra',
+        text: '¿Deseas finalizar la compra?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#007bff',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, comprar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Simular el proceso de compra
+            localStorage.removeItem('cart');
+            cart.length = 0; // Clear cart array
+            updateCartUI();
+            Swal.fire(
+                'Compra completada!',
+                'Gracias por tu compra!',
+                'success'
+            );
+        }
+    });
 });
+
+updateCartUI();
