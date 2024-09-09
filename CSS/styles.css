@@ -1,82 +1,161 @@
-/* styles.css */
-
+/* Estilos generales para el cuerpo */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    background-color: #f4f4f4; /* Fondo claro para mayor contraste */
 }
 
+/* Estilo del encabezado */
 header {
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
     text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
+/* Estilo principal del contenedor */
 main {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px; /* Limitar el ancho máximo */
+    padding: 0 20px; /* Agregar padding para el contenido */
 }
 
-#product-list {
-    flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+/* Estilo para la lista de productos y el carrito */
+#product-list, #cart {
+    width: 48%; /* Ajustar el ancho para mejorar el espaciado */
 }
 
+/* Estilo de los productos */
 .product {
     border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    width: 200px;
-    text-align: center;
-    background: #fff;
+    background-color: white; /* Fondo blanco para los productos */
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: transform 0.2s; /* Efecto de transición */
 }
 
+.product:hover {
+    transform: scale(1.05); /* Escalar al pasar el ratón */
+}
+
+/* Estilo de la imagen del producto */
 .product img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
-}
-
-#cart {
-    width: 300px;
-    border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 10px;
-    background: #f9f9f9;
-}
-
-#cart-items {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-#cart-items li {
     margin-bottom: 10px;
 }
 
-#empty-cart-btn,
-#checkout-btn {
-    background-color: #007bff;
+/* Estilo para el botón */
+button {
+    background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px 20px;
-    margin: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo del carrito */
+#cart-items li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#cart-items li button {
+    background-color: #f44336;
+}
+
+#cart-items li button:hover {
+    background-color: #e53935;
+}
+
+/* Estilo del resumen del carrito */
+#cart-summary {
+    border-top: 2px solid #4CAF50;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+/* Mensaje de carrito vacío */
+#cart-empty-message {
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Estilo de los colores del producto */
+.product-colors {
+    margin-top: 10px;
+}
+
+.product-colors span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
     cursor: pointer;
 }
 
-#empty-cart-btn:hover,
-#checkout-btn:hover {
-    background-color: #0056b3;
+.color-rojo {
+    background-color: #f44336;
 }
 
-#empty-cart-message {
-    text-align: center;
-    color: #777;
+.color-azul {
+    background-color: #2196F3;
+}
+
+.color-verde {
+    background-color: #4CAF50;
+}
+
+.color-amarillo {
+    background-color: #FFEB3B;
+}
+
+/* Estilo de la sección de checkout */
+#checkout-btn, #empty-cart-btn {
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Diseño para formularios */
+form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form button {
+    width: auto;
+    padding: 10px 20px;
 }
