@@ -11,16 +11,22 @@ header {
     background-color: #f5f5f5;
     padding: 20px;
     text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
 }
 
 main {
+    display: flex;
+    justify-content: space-around;
     padding: 20px;
 }
 
-#products-container {
+#product-list {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    flex: 2;
 }
 
 .product {
@@ -50,12 +56,19 @@ main {
     margin-right: 5px;
 }
 
-#shopping-cart-section {
-    margin-top: 40px;
-    padding: 20px;
+#cart {
     border: 1px solid #ddd;
     border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    flex: 1;
     position: relative;
+}
+
+#cart-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 #cart-items {
@@ -75,6 +88,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     margin-right: 10px;
+    margin-top: 10px;
 }
 
 button:hover {
