@@ -3,21 +3,24 @@
         "id": 1,
         "name": "Producto 1",
         "price": 29.99,
-        "image": "product1.jpg",
-        "colors": ["Rojo"]
+        "description": "Descripción del Producto 1",
+        "image": "https://via.placeholder.com/150",
+        "colors": ["rojo", "azul", "verde", "amarillo"]
     },
     {
         "id": 2,
         "name": "Producto 2",
         "price": 39.99,
-        "image": "product2.jpg",
-        "colors": ["Azul", "Verde"]
+        "description": "Descripción del Producto 2",
+        "image": "https://via.placeholder.com/150",
+        "colors": ["rojo", "azul", "verde", "amarillo"]
     },
     {
         "id": 3,
         "name": "Producto 3",
-        "price": 49.99,
-        "image": "product3.jpg",
-        "colors": ["Amarillo", "Rojo", "Azul"]
+        "price": 19.99,
+        "description": "Descripción del Producto 3",
+        "image": "https://via.placeholder.com/150",
+        "colors": ["rojo", "azul", "verde", "amarillo"]
     }
 ]
