@@ -1,186 +1,87 @@
-/* Estilos generales para el cuerpo */
+/* styles.css */
+
+/* Estilos generales */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* Fondo claro para mayor contraste */
 }
 
-/* Estilo del encabezado */
 header {
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
+    background-color: #f5f5f5;
     padding: 20px;
-    font-size: 24px;
-    font-weight: bold;
+    text-align: center;
 }
 
-/* Estilo principal del contenedor */
 main {
+    padding: 20px;
+}
+
+#products-container {
     display: flex;
-    justify-content: space-between;
-    margin: 20px auto;
-    max-width: 1200px; /* Limitar el ancho máximo */
-    padding: 0 20px; /* Agregar padding para el contenido */
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-/* Estilo para la lista de productos */
-#product-list {
-    width: 70%; /* Ajustar el ancho para que el carrito sea claramente visible */
-}
-
-/* Estilo para los productos */
 .product {
     border: 1px solid #ddd;
-    background-color: white; /* Fondo blanco para los productos */
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    transition: transform 0.2s; /* Efecto de transición */
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    position: relative;
 }
 
-.product:hover {
-    transform: scale(1.05); /* Escalar al pasar el ratón */
-}
-
-/* Estilo de la imagen del producto */
 .product img {
     max-width: 100%;
-    height: auto;
-    border-radius: 5px;
+    border-radius: 8px;
+}
+
+.product .color-options {
+    margin-top: 10px;
+}
+
+.color-option {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+#shopping-cart-section {
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    position: relative;
+}
+
+#cart-items {
+    list-style-type: none;
+    padding: 0;
+}
+
+#cart-items li {
     margin-bottom: 10px;
 }
 
-/* Estilo para el botón */
 button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px 15px;
-    cursor: pointer;
+    padding: 10px 20px;
     border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    cursor: pointer;
+    margin-right: 10px;
 }
 
 button:hover {
     background-color: #45a049;
 }
 
-/* Estilo del carrito */
-#cart {
-    width: 25%; /* Ancho del carrito */
-    background-color: white; /* Fondo blanco para el carrito */
-    border: 1px solid #ddd; /* Borde suave */
-    padding: 15px;
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-}
-
-/* Título del carrito */
-#cart-title {
-    font-size: 20px;
-    font-weight: bold;
-    border-bottom: 2px solid #4CAF50;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-/* Estilo de los ítems del carrito */
-#cart-items li {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#cart-items li button {
-    background-color: #f44336;
-}
-
-#cart-items li button:hover {
-    background-color: #e53935;
-}
-
-/* Estilo del resumen del carrito */
-#cart-summary {
-    border-top: 2px solid #4CAF50;
-    padding-top: 10px;
-    margin-top: 10px;
-}
-
-/* Mensaje de carrito vacío */
 #cart-empty-message {
-    color: #999;
-    font-style: italic;
-    text-align: center;
-    margin-top: 20px;
-    display: none; /* Ocultar por defecto */
-}
-
-/* Estilo de los colores del producto */
-.product-colors {
-    margin-top: 10px;
-}
-
-.product-colors span {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    margin-right: 10px;
-    cursor: pointer;
-    border: 2px solid #ddd; /* Borde para los colores */
-}
-
-.product-colors span.selected {
-    border: 2px solid #4CAF50; /* Borde verde para el color seleccionado */
-}
-
-.color-rojo {
-    background-color: #f44336;
-}
-
-.color-azul {
-    background-color: #2196F3;
-}
-
-.color-verde {
-    background-color: #4CAF50;
-}
-
-.color-amarillo {
-    background-color: #FFEB3B;
-}
-
-/* Estilo de la sección de checkout */
-#checkout-btn, #empty-cart-btn {
-    margin-top: 20px;
-    width: 100%;
-}
-
-/* Diseño para formularios */
-form {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
-form input, form select {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-form button {
-    width: auto;
-    padding: 10px 20px;
+    display: none;
+    color: #f44336;
 }
