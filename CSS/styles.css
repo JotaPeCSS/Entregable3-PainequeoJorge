@@ -1,85 +1,82 @@
 /* styles.css */
 
-/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/* Estilos del encabezado */
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
     text-align: center;
 }
 
-/* Estilos de los botones */
-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-/* Estilos principales del contenido */
 main {
     display: flex;
     justify-content: space-between;
     padding: 20px;
 }
 
-/* Estilos de la lista de productos */
 #product-list {
-    flex: 2;
+    flex: 1;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
 
 .product {
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 5px;
     padding: 10px;
-    width: 30%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 200px;
+    text-align: center;
+    background: #fff;
 }
 
 .product img {
-    max-width: 100%;
+    width: 100%;
+    height: auto;
 }
 
-.product select {
-    margin-top: 5px;
-}
-
-/* Estilos del carrito */
 #cart {
-    flex: 1;
-    border: 1px solid #ccc;
+    width: 300px;
+    border: 1px solid #ddd;
     border-radius: 5px;
     padding: 10px;
+    background: #f9f9f9;
 }
 
 #cart-items {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 #cart-items li {
-    border-bottom: 1px solid #eee;
-    padding: 5px 0;
+    margin-bottom: 10px;
+}
+
+#empty-cart-btn,
+#checkout-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#empty-cart-btn:hover,
+#checkout-btn:hover {
+    background-color: #0056b3;
 }
 
 #empty-cart-message {
     text-align: center;
-    font-size: 1.2em;
-    color: #555;
+    color: #777;
 }
