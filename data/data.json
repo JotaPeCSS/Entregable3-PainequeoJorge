@@ -2,22 +2,22 @@
     {
         "id": 1,
         "name": "Producto 1",
-        "price": 19.99,
+        "price": 29.99,
         "image": "product1.jpg",
-        "colors": ["rojo"]
+        "colors": ["Rojo"]
     },
     {
         "id": 2,
         "name": "Producto 2",
-        "price": 29.99,
+        "price": 39.99,
         "image": "product2.jpg",
-        "colors": ["azul", "verde"]
+        "colors": ["Azul", "Verde"]
     },
     {
         "id": 3,
         "name": "Producto 3",
-        "price": 39.99,
+        "price": 49.99,
         "image": "product3.jpg",
-        "colors": ["amarillo", "rojo", "azul"]
+        "colors": ["Amarillo", "Rojo", "Azul"]
     }
 ]
