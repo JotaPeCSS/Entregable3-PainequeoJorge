@@ -3,7 +3,7 @@
 // Función para mostrar productos
 async function loadProducts() {
     try {
-        const response = await fetch('data/products.json');
+        const response = await fetch('data/data.json');
         const products = await response.json();
         const productsContainer = document.getElementById('products-container');
 
