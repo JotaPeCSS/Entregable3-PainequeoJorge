@@ -16,7 +16,7 @@ async function loadProducts() {
                 <p>$${product.price}</p>
                 <div class="color-options">
                     ${product.colors.map(color => `
-                        <div class="color-option" style="background-color: ${color};" onclick="selectColor('${product.id}', '${color}')"></div>
+                        <div class="color-option" style="background-color: ${color};" onclick="selectColor('${product.id}', '${color}', this)"></div>
                     `).join('')}
                 </div>
                 <button onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.colors[0]}')">Añadir al Carrito</button>
@@ -30,3 +30,12 @@ async function loadProducts() {
 
 // Cargar productos al iniciar
 window.onload = loadProducts;
+
+// Función para seleccionar color
+function selectColor(productId, color, element) {
+    const colorOptions = document.querySelectorAll(`.color-option[data-product-id="${productId}"]`);
+    colorOptions.forEach(option => option.classList.remove('selected'));
+    element.classList.add('selected');
+    // Cambiar el color seleccionado en la UI si es necesario
+    console.log(`Color ${color} seleccionado para el producto ${productId}`);
+}
