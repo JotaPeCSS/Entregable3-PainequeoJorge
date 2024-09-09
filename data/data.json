@@ -1,26 +1,23 @@
 [
     {
-        "id": 1,
+        "id": "product1",
         "name": "Producto 1",
         "price": 29.99,
-        "description": "Descripción del Producto 1",
-        "image": "https://via.placeholder.com/150",
-        "colors": ["rojo", "azul", "verde", "amarillo"]
+        "image": "product1.jpg",
+        "colors": ["#FF0000"]  // Rojo
     },
     {
-        "id": 2,
+        "id": "product2",
         "name": "Producto 2",
-        "price": 39.99,
-        "description": "Descripción del Producto 2",
-        "image": "https://via.placeholder.com/150",
-        "colors": ["rojo", "azul", "verde", "amarillo"]
+        "price": 49.99,
+        "image": "product2.jpg",
+        "colors": ["#0000FF", "#00FF00"]  // Azul y Verde
     },
     {
-        "id": 3,
+        "id": "product3",
         "name": "Producto 3",
         "price": 19.99,
-        "description": "Descripción del Producto 3",
-        "image": "https://via.placeholder.com/150",
-        "colors": ["rojo", "azul", "verde", "amarillo"]
+        "image": "product3.jpg",
+        "colors": ["#FFFF00", "#FF00FF", "#00FFFF"]  // Amarillo, Magenta y Cian
     }
 ]
