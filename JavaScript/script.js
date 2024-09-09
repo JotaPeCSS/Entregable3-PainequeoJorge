@@ -63,7 +63,7 @@ function updateCart() {
     cartItems.forEach(item => {
         const listItem = document.createElement('li');
         listItem.innerHTML = `
-            ${item.name} - $${item.price} - Color: ${item.color}
+            ${item.name} - $${item.price.toFixed(2)} - Color: ${item.color}
             <button onclick="removeFromCart(${item.id})">Eliminar</button>
         `;
         cartList.appendChild(listItem);
