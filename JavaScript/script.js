@@ -5,7 +5,7 @@ async function loadProducts() {
     try {
         const response = await fetch('data/data.json');
         const products = await response.json();
-        const productsContainer = document.getElementById('products-container');
+        const productList = document.getElementById('product-list');
 
         products.forEach(product => {
             const productDiv = document.createElement('div');
@@ -21,7 +21,7 @@ async function loadProducts() {
                 </div>
                 <button onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.colors[0]}')">Añadir al Carrito</button>
             `;
-            productsContainer.appendChild(productDiv);
+            productList.appendChild(productDiv);
         });
     } catch (error) {
         console.error('Error loading products:', error);
