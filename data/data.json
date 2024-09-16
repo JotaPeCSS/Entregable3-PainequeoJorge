@@ -1,23 +1,20 @@
 [
     {
         "id": 1,
-        "name": "Producto 1",
-        "price": 25.00,
-        "image": "images/product1.jpg",
-        "colors": ["#FF0000", "#FFFF00", "#00FF00", "#0000FF"] // Rojo, Amarillo, Verde, Azul
+        "name": "Gorra",
+        "price": 10.00,
+        "image": "product1.jpg"
     },
     {
         "id": 2,
-        "name": "Producto 2",
-        "price": 30.00,
-        "image": "images/product2.jpg",
-        "colors": ["#FF6347", "#4682B4", "#32CD32", "#FFD700"] // Tomate, Azul Acero, Verde Pasto, Oro
+        "name": "Camisa 2",
+        "price": 15.00,
+        "image": "product2.jpg"
     },
     {
         "id": 3,
-        "name": "Producto 3",
+        "name": "Chaqueta 3",
         "price": 20.00,
-        "image": "images/product3.jpg",
-        "colors": ["#FFC0CB", "#8A2BE2", "#FF4500", "#D2691E"] // Rosa, Azul Violeta, Naranja, Chocolate
+        "image": "product3.jpg"
     }
 ]
