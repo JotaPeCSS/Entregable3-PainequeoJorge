@@ -1,23 +1,23 @@
 [
     {
-        "id": "1",
+        "id": 1,
         "name": "Producto 1",
-        "price": 29.99,
-        "image": "product1.jpg",
-        "colors": ["#ff0000"]
+        "price": 20.00,
+        "image": "assets/product1.jpg",
+        "colors": ["#ff0000", "#00ff00", "#0000ff", "#ffff00"]
     },
     {
-        "id": "2",
+        "id": 2,
         "name": "Producto 2",
-        "price": 39.99,
-        "image": "product2.jpg",
-        "colors": ["#00ff00", "#0000ff"]
+        "price": 30.00,
+        "image": "assets/product2.jpg",
+        "colors": ["#ff0000", "#00ff00", "#0000ff", "#ffff00"]
     },
     {
-        "id": "3",
+        "id": 3,
         "name": "Producto 3",
-        "price": 49.99,
-        "image": "product3.jpg",
-        "colors": ["#ffff00", "#00ffff", "#ff00ff"]
+        "price": 40.00,
+        "image": "assets/product3.jpg",
+        "colors": ["#ff0000", "#00ff00", "#0000ff", "#ffff00"]
     }
 ]
