@@ -1,13 +1,14 @@
-// JavaScript/shoppingCart.js
-
 const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 // Actualiza la interfaz de usuario del carrito
 const updateCartUI = () => {
     const cartItems = document.getElementById('cart-items');
     const totalAmount = document.getElementById('total-amount');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    
     if (cart.length === 0) {
         cartItems.innerHTML = '<p>El carrito está vacío</p>';
+        checkoutBtn.disabled = true; // Desactivar el botón de COMPRAR
     } else {
         cartItems.innerHTML = cart.map(item => `
             <li>
@@ -17,6 +18,7 @@ const updateCartUI = () => {
                 <button onclick="removeFromCart(${item.id})">Eliminar</button>
             </li>
         `).join('');
+        checkoutBtn.disabled = false; // Activar el botón de COMPRAR
     }
     totalAmount.textContent = calculateTotal().toFixed(2);
 };
@@ -153,5 +155,5 @@ document.getElementById('empty-cart-btn').addEventListener('click', () => {
 
 document.getElementById('checkout-btn').addEventListener('click', checkout);
 
-// Actualizar la interfaz del carrito al cargar
+// Inicializar la interfaz del carrito al cargar
 updateCartUI();
