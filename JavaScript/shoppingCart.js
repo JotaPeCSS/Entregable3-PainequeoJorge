@@ -12,10 +12,10 @@ const updateCartUI = () => {
     } else {
         cartItems.innerHTML = cart.map(item => `
             <li>
-                ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}
-                <button onclick="updateQuantity(${item.id}, -1)">-</button>
-                <button onclick="updateQuantity(${item.id}, 1)">+</button>
-                <button onclick="removeFromCart(${item.id})">Eliminar</button>
+                ${item.name} ${item.size ? `(${item.size})` : ''} - $${item.price.toFixed(2)} x ${item.quantity}
+                <button onclick="updateQuantity('${item.id}-${item.size || ''}', -1)">-</button>
+                <button onclick="updateQuantity('${item.id}-${item.size || ''}', 1)">+</button>
+                <button onclick="removeFromCart('${item.id}-${item.size || ''}')">Eliminar</button>
             </li>
         `).join('');
         checkoutBtn.disabled = false; // Activar el botón de COMPRAR
@@ -24,17 +24,17 @@ const updateCartUI = () => {
 };
 
 // Añade un producto al carrito
-const addToCart = (productId) => {
+const addToCart = (productId, size) => {
     fetch('./data/data.json')
         .then(response => response.json())
         .then(products => {
             const product = products.find(p => p.id === productId);
-            const existingProduct = cart.find(p => p.id === productId);
+            const existingProduct = cart.find(p => p.id === productId && p.size === size);
 
             if (existingProduct) {
                 existingProduct.quantity += 1;
             } else {
-                cart.push({ ...product, quantity: 1 });
+                cart.push({ ...product, size: size || '', quantity: 1 });
             }
 
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -44,8 +44,10 @@ const addToCart = (productId) => {
 };
 
 // Actualiza la cantidad de un producto en el carrito
-const updateQuantity = (productId, delta) => {
-    const product = cart.find(p => p.id === productId);
+const updateQuantity = (productIdSize, delta) => {
+    const [productId, size] = productIdSize.split('-');
+    const product = cart.find(p => p.id === productId && p.size === size);
+
     if (product) {
         product.quantity += delta;
         if (product.quantity <= 0) {
@@ -57,8 +59,10 @@ const updateQuantity = (productId, delta) => {
 };
 
 // Elimina un producto del carrito
-const removeFromCart = (productId) => {
-    const index = cart.findIndex(p => p.id === productId);
+const removeFromCart = (productIdSize) => {
+    const [productId, size] = productIdSize.split('-');
+    const index = cart.findIndex(p => p.id === productId && p.size === size);
+
     if (index !== -1) {
         cart.splice(index, 1);
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -153,7 +157,4 @@ document.getElementById('empty-cart-btn').addEventListener('click', () => {
     }
 });
 
-document.getElementById('checkout-btn').addEventListener('click', checkout);
-
-// Inicializar la interfaz del carrito al cargar
-updateCartUI();
+document.getElementById('checkout-btn').addEventListener('click', checkout
