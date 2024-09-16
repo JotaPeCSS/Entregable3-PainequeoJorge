@@ -60,9 +60,7 @@ button:hover {
     margin-top: 20px;
 }
 
-/* Estilo para el botón COMPRAR cuando está desactivado */
 #checkout-btn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
-
