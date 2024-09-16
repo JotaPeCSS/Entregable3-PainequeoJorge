@@ -2,22 +2,22 @@
     {
         "id": 1,
         "name": "Producto 1",
-        "price": 20.00,
-        "image": "assets/product1.jpg",
-        "colors": ["#ff0000", "#00ff00", "#0000ff", "#ffff00"]
+        "price": 25.00,
+        "image": "images/product1.jpg",
+        "colors": ["#FF0000", "#FFFF00", "#00FF00", "#0000FF"] // Rojo, Amarillo, Verde, Azul
     },
     {
         "id": 2,
         "name": "Producto 2",
         "price": 30.00,
-        "image": "assets/product2.jpg",
-        "colors": ["#ff0000", "#00ff00", "#0000ff", "#ffff00"]
+        "image": "images/product2.jpg",
+        "colors": ["#FF6347", "#4682B4", "#32CD32", "#FFD700"] // Tomate, Azul Acero, Verde Pasto, Oro
     },
     {
         "id": 3,
         "name": "Producto 3",
-        "price": 40.00,
-        "image": "assets/product3.jpg",
-        "colors": ["#ff0000", "#00ff00", "#0000ff", "#ffff00"]
+        "price": 20.00,
+        "image": "images/product3.jpg",
+        "colors": ["#FFC0CB", "#8A2BE2", "#FF4500", "#D2691E"] // Rosa, Azul Violeta, Naranja, Chocolate
     }
 ]
