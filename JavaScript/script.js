@@ -1,50 +1,39 @@
-// JavaScript/script.js
+// script.js
 
-// Función para mostrar productos
-async function loadProducts() {
+async function fetchProducts() {
     try {
-        const response = await fetch('./data/data.json');
-        if (!response.ok) throw new Error('Network response was not ok');
-        const products = await response.json();
-        const productList = document.getElementById('product-list');
-
-        productList.innerHTML = ''; // Limpiar la lista antes de agregar productos
-
-        products.forEach(product => {
-            const productDiv = document.createElement('div');
-            productDiv.className = 'product';
-            productDiv.innerHTML = `
-                <img src="./assets/${product.image}" alt="${product.name}">
-                <h3>${product.name}</h3>
-                <p>$${product.price.toFixed(2)}</p>
-                <div class="color-options">
-                    ${product.colors.map(color => `
-                        <div class="color-option" style="background-color: ${color};" data-product-id="${product.id}" onclick="selectColor('${product.id}', '${color}', this)"></div>
-                    `).join('')}
-                </div>
-                <button onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.colors[0]}')">Añadir al Carrito</button>
-            `;
-            productList.appendChild(productDiv);
-        });
+        const response = await fetch('data/data.json');
+        if (!response.ok) throw new Error('Error al cargar los productos');
+        
+        const data = await response.json();
+        displayProducts(data);
     } catch (error) {
-        console.error('Error loading products:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema al cargar los productos. Intenta nuevamente más tarde.'
+        });
     }
 }
 
-// Cargar productos al iniciar
-window.onload = loadProducts;
+function displayProducts(products) {
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = '';
 
-// Función para seleccionar color
-function selectColor(productId, color, element) {
-    const colorOptions = document.querySelectorAll(`.color-option[data-product-id="${productId}"]`);
-    colorOptions.forEach(option => option.classList.remove('selected'));
-    element.classList.add('selected');
-    // Cambiar el color seleccionado en la UI si es necesario
-    console.log(`Color ${color} seleccionado para el producto ${productId}`);
+    products.forEach(product => {
+        const productHTML = `
+            <div class="product">
+                <img src="${product.image}" alt="${product.name}">
+                <h2>${product.name}</h2>
+                <p>${product.price} USD</p>
+                <div class="color-options">
+                    ${product.colors.map(color => `<span class="color-option" style="background-color: ${color};"></span>`).join('')}
+                </div>
+                <button onclick='addToCart(${JSON.stringify(product)})'>Añadir al Carrito</button>
+            </div>
+        `;
+        productList.innerHTML += productHTML;
+    });
 }
 
-// Función para añadir al carrito (Placeholder)
-function addToCart(productId, productName, productPrice, productColor) {
-    console.log(`Añadido al carrito: ${productName}, Color: ${productColor}`);
-    // Aquí se integrará la lógica para añadir al carrito
-}
+fetchProducts();
