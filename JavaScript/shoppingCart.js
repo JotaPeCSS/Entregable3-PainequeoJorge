@@ -1,3 +1,4 @@
+
 const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 // Actualiza la interfaz de usuario del carrito
@@ -12,10 +13,10 @@ const updateCartUI = () => {
     } else {
         cartItems.innerHTML = cart.map(item => `
             <li>
-                ${item.name} ${item.size ? `(${item.size})` : ''} - $${item.price.toFixed(2)} x ${item.quantity}
-                <button onclick="updateQuantity('${item.id}-${item.size || ''}', -1)">-</button>
-                <button onclick="updateQuantity('${item.id}-${item.size || ''}', 1)">+</button>
-                <button onclick="removeFromCart('${item.id}-${item.size || ''}')">Eliminar</button>
+                ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}
+                <button onclick="updateQuantity(${item.id}, -1)">-</button>
+                <button onclick="updateQuantity(${item.id}, 1)">+</button>
+                <button onclick="removeFromCart(${item.id})">Eliminar</button>
             </li>
         `).join('');
         checkoutBtn.disabled = false; // Activar el botón de COMPRAR
@@ -24,17 +25,17 @@ const updateCartUI = () => {
 };
 
 // Añade un producto al carrito
-const addToCart = (productId, size) => {
+const addToCart = (productId) => {
     fetch('./data/data.json')
         .then(response => response.json())
         .then(products => {
             const product = products.find(p => p.id === productId);
-            const existingProduct = cart.find(p => p.id === productId && p.size === size);
+            const existingProduct = cart.find(p => p.id === productId);
 
             if (existingProduct) {
                 existingProduct.quantity += 1;
             } else {
-                cart.push({ ...product, size: size || '', quantity: 1 });
+                cart.push({ ...product, quantity: 1 });
             }
 
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -44,10 +45,8 @@ const addToCart = (productId, size) => {
 };
 
 // Actualiza la cantidad de un producto en el carrito
-const updateQuantity = (productIdSize, delta) => {
-    const [productId, size] = productIdSize.split('-');
-    const product = cart.find(p => p.id === productId && p.size === size);
-
+const updateQuantity = (productId, delta) => {
+    const product = cart.find(p => p.id === productId);
     if (product) {
         product.quantity += delta;
         if (product.quantity <= 0) {
@@ -59,10 +58,8 @@ const updateQuantity = (productIdSize, delta) => {
 };
 
 // Elimina un producto del carrito
-const removeFromCart = (productIdSize) => {
-    const [productId, size] = productIdSize.split('-');
-    const index = cart.findIndex(p => p.id === productId && p.size === size);
-
+const removeFromCart = (productId) => {
+    const index = cart.findIndex(p => p.id === productId);
     if (index !== -1) {
         cart.splice(index, 1);
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -157,4 +154,7 @@ document.getElementById('empty-cart-btn').addEventListener('click', () => {
     }
 });
 
-document.getElementById('checkout-btn').addEventListener('click', checkout
+document.getElementById('checkout-btn').addEventListener('click', checkout);
+
+// Inicializar la interfaz del carrito al cargar
+updateCartUI();
