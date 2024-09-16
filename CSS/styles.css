@@ -1,6 +1,6 @@
 /* Estilos para el header */
 header {
-    background-color: #333; 
+    background-color: #333;
     color: #fff;
     padding: 10px;
     text-align: center;
@@ -28,6 +28,12 @@ main {
     padding: 10px;
     text-align: center;
     width: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.product:hover {
+    transform: scale(1.02);
 }
 
 .product img {
@@ -43,6 +49,7 @@ main {
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
+    transition: background-color 0.2s ease;
 }
 
 .product button:hover {
