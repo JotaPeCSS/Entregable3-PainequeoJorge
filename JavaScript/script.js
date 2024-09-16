@@ -31,10 +31,12 @@ function displayProducts(products) {
         productList.appendChild(productElement);
     });
 
+    // Añadir eventos para la selección de colores
     document.querySelectorAll('.color-option').forEach(option => {
         option.addEventListener('click', selectColor);
     });
 
+    // Añadir eventos para añadir productos al carrito
     document.querySelectorAll('.product button').forEach(button => {
         button.addEventListener('click', addToCart);
     });
@@ -56,7 +58,7 @@ function addToCart(event) {
     const size = prompt('Ingrese la talla (S, M, L, XL):');
     
     if (!size) {
-        alert('Debe ingresar una talla.');
+        Swal.fire('Error', 'Debe ingresar una talla.', 'error');
         return;
     }
     
