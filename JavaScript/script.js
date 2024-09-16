@@ -1,7 +1,7 @@
 // Función para cargar los productos desde el archivo JSON
 async function loadProducts() {
     try {
-        const response = await fetch('data/data.json');
+        const response = await fetch('./data/data.json');
         const products = await response.json();
         displayProducts(products);
     } catch (error) {
@@ -102,7 +102,7 @@ function updateCart() {
         productElement.textContent = `Producto ${item.id} ${item.color ? `(Color: ${item.color})` : ''} ${item.size ? `(Tamaño: ${item.size})` : ''} x${item.quantity}`;
         cartItemsList.appendChild(productElement);
 
-        total += item.quantity * 25.00; // Assuming each product costs $25.00 (adjust this as needed)
+        total += item.quantity * 25.00; // Asumiendo que cada producto cuesta $25.00
     });
 
     cartSummary.innerHTML = `Total: $${total.toFixed(2)}`;
@@ -125,5 +125,5 @@ function checkout() {
 document.getElementById('empty-cart-btn').addEventListener('click', emptyCart);
 document.getElementById('checkout-btn').addEventListener('click', checkout);
 
-// Cargar productos al iniciar
+// Inicializar los productos al cargar la página
 loadProducts();
