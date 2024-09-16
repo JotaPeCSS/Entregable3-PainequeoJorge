@@ -20,7 +20,7 @@ function updateCart() {
         productElement.textContent = `Producto ${item.id} ${item.color ? `(Color: ${item.color})` : ''} ${item.size ? `(Tamaño: ${item.size})` : ''} x${item.quantity}`;
         cartItemsList.appendChild(productElement);
 
-        total += item.quantity * 25.00; // Assuming each product costs $25.00 (adjust this as needed)
+        total += item.quantity * 25.00; // Asumiendo que cada producto cuesta $25.00
     });
 
     cartSummary.innerHTML = `Total: $${total.toFixed(2)}`;
