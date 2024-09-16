@@ -1,18 +1,16 @@
-document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
-});
-
+// Función para cargar los productos desde el archivo JSON
 async function loadProducts() {
     try {
         const response = await fetch('data/data.json');
         const products = await response.json();
-        renderProducts(products);
+        displayProducts(products);
     } catch (error) {
-        console.error('Error cargando productos:', error);
+        console.error('Error al cargar los productos:', error);
     }
 }
 
-function renderProducts(products) {
+// Función para mostrar los productos en la página
+function displayProducts(products) {
     const productList = document.getElementById('product-list');
     productList.innerHTML = '';
 
@@ -22,43 +20,58 @@ function renderProducts(products) {
         productElement.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
             <h3>${product.name}</h3>
-            <p>$${product.price.toFixed(2)}</p>
-            <div class="color-options">
-                ${product.colors.map(color => `
-                    <span class="color-option" style="background-color: ${color};" data-color="${color}"></span>
-                `).join('')}
+            <p>Precio: $${product.price.toFixed(2)}</p>
+            <div class="color-options" data-product-id="${product.id}">
+                ${product.colors.map(color => 
+                    `<div class="color-option" style="background-color: ${color};" data-color="${color}"></div>`
+                ).join('')}
             </div>
-            <label for="size-${product.id}">Tamaño:</label>
-            <select id="size-${product.id}" class="size-selector">
-                ${['S', 'M', 'L', 'XL'].map(size => `
-                    <option value="${size}">${size}</option>
-                `).join('')}
-            </select>
-            <button onclick="addToCart(${product.id})">Agregar al Carrito</button>
+            <button data-product-id="${product.id}">Añadir al carrito</button>
         `;
         productList.appendChild(productElement);
     });
+
+    document.querySelectorAll('.color-option').forEach(option => {
+        option.addEventListener('click', selectColor);
+    });
+
+    document.querySelectorAll('.product button').forEach(button => {
+        button.addEventListener('click', addToCart);
+    });
 }
 
-function addToCart(productId) {
-    const selectedColor = document.querySelector(`.product:nth-child(${productId}) .color-option.selected`);
-    const color = selectedColor ? selectedColor.dataset.color : '';
-    const size = document.querySelector(`#size-${productId}`).value;
+// Función para seleccionar un color
+function selectColor(event) {
+    const selectedOption = event.target;
+    const colorOptions = selectedOption.parentElement.querySelectorAll('.color-option');
+    
+    colorOptions.forEach(option => option.classList.remove('selected'));
+    selectedOption.classList.add('selected');
+}
 
-    const product = {
-        id: productId,
-        name: `Producto ${productId}`, // Placeholder, use product name from your JSON
-        price: 10.00, // Placeholder, use product price from your JSON
-        selectedColor: color,
-        size: size,
-        quantity: 1
-    };
+// Función para añadir un producto al carrito
+function addToCart(event) {
+    const productId = event.target.getAttribute('data-product-id');
+    const color = document.querySelector(`.color-options[data-product-id="${productId}"] .color-option.selected`);
+    const size = prompt('Ingrese la talla (S, M, L, XL):');
+    
+    if (!size) {
+        alert('Debe ingresar una talla.');
+        return;
+    }
+    
+    const colorValue = color ? color.getAttribute('data-color') : null;
+    const product = { id: productId, color: colorValue, size: size, quantity: 1 };
+    addProductToCart(product);
+}
 
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingProductIndex = cart.findIndex(item => item.id === productId);
-
-    if (existingProductIndex > -1) {
-        cart[existingProductIndex].quantity += 1;
+// Función para añadir un producto al carrito en localStorage
+function addProductToCart(product) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const index = cart.findIndex(p => p.id === product.id && p.color === product.color && p.size === product.size);
+    
+    if (index > -1) {
+        cart[index].quantity += product.quantity;
     } else {
         cart.push(product);
     }
@@ -66,3 +79,51 @@ function addToCart(productId) {
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCart();
 }
+
+// Función para actualizar el carrito en la interfaz
+function updateCart() {
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItemsList = document.getElementById('cart-items');
+    const cartSummary = document.getElementById('cart-summary');
+    const cartEmptyMessage = document.getElementById('cart-empty-message');
+
+    cartItemsList.innerHTML = '';
+    if (cartItems.length === 0) {
+        cartEmptyMessage.style.display = 'block';
+        cartSummary.innerHTML = '';
+        return;
+    }
+
+    cartEmptyMessage.style.display = 'none';
+    let total = 0;
+
+    cartItems.forEach(item => {
+        const productElement = document.createElement('li');
+        productElement.textContent = `Producto ${item.id} ${item.color ? `(Color: ${item.color})` : ''} ${item.size ? `(Tamaño: ${item.size})` : ''} x${item.quantity}`;
+        cartItemsList.appendChild(productElement);
+
+        total += item.quantity * 25.00; // Assuming each product costs $25.00 (adjust this as needed)
+    });
+
+    cartSummary.innerHTML = `Total: $${total.toFixed(2)}`;
+}
+
+// Función para vaciar el carrito
+function emptyCart() {
+    localStorage.removeItem('cart');
+    updateCart();
+}
+
+// Función para proceder a la compra
+function checkout() {
+    localStorage.removeItem('cart');
+    Swal.fire('¡Gracias por tu compra!', 'Tu carrito ha sido vaciado.', 'success');
+    updateCart();
+}
+
+// Eventos
+document.getElementById('empty-cart-btn').addEventListener('click', emptyCart);
+document.getElementById('checkout-btn').addEventListener('click', checkout);
+
+// Cargar productos al iniciar
+loadProducts();
