@@ -1,69 +1,65 @@
-// JavaScript/shoppingCart.js
+// shoppingCart.js
 
-// Función para actualizar el carrito en la UI
-function updateCart() {
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    const cartList = document.getElementById('cart-items');
+function updateCartUI() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItems = document.getElementById('cart-items');
     const cartSummary = document.getElementById('cart-summary');
     const cartEmptyMessage = document.getElementById('cart-empty-message');
 
-    cartList.innerHTML = ''; // Limpiar la lista antes de actualizar
-
-    if (cartItems.length === 0) {
+    if (cart.length === 0) {
         cartEmptyMessage.style.display = 'block';
+        cartItems.innerHTML = '';
         cartSummary.innerHTML = '';
-    } else {
-        cartEmptyMessage.style.display = 'none';
-        let total = 0;
-
-        cartItems.forEach(item => {
-            const cartItem = document.createElement('li');
-            cartItem.innerHTML = `
-                ${item.name} - $${item.price.toFixed(2)} - <span style="background-color: ${item.color}; display: inline-block; width: 20px; height: 20px; border-radius: 50%;"></span>
-                <button onclick="removeFromCart('${item.id}', '${item.color}')">Eliminar</button>
-            `;
-            cartList.appendChild(cartItem);
-            total += item.price;
-        });
-
-        cartSummary.innerHTML = `Total: $${total.toFixed(2)}`;
+        return;
     }
+
+    cartEmptyMessage.style.display = 'none';
+    cartItems.innerHTML = cart.map(item => `
+        <li>${item.name} x ${item.quantity} - $${item.price * item.quantity}</li>
+    `).join('');
+
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    cartSummary.innerHTML = `Total: $${total}`;
 }
 
-// Función para añadir al carrito
-function addToCart(productId, productName, productPrice, productColor) {
-    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    cartItems.push({ id: productId, name: productName, price: productPrice, color: productColor });
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    updateCart();
-}
+function addToCart(product) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingProduct = cart.find(item => item.id === product.id);
+    
+    if (existingProduct) {
+        existingProduct.quantity += 1;
+    } else {
+        product.quantity = 1;
+        cart.push(product);
+    }
 
-// Función para eliminar del carrito
-function removeFromCart(productId, color) {
-    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    cartItems = cartItems.filter(item => !(item.id === productId && item.color === color));
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    updateCart();
-}
-
-// Función para vaciar el carrito
-document.getElementById('empty-cart-btn').addEventListener('click', () => {
-    localStorage.removeItem('cartItems');
-    updateCart();
-});
-
-// Función para finalizar la compra
-document.getElementById('checkout-btn').addEventListener('click', () => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartUI();
     Swal.fire({
-        title: '¡Compra realizada!',
-        text: 'Gracias por tu compra.',
         icon: 'success',
-        confirmButtonText: 'Aceptar'
-    }).then(() => {
-        localStorage.removeItem('cartItems');
-        updateCart();
+        title: 'Producto añadido',
+        text: `${product.name} ha sido añadido al carrito`
     });
-});
+}
 
-// Actualizar el carrito al cargar la página
-window.onload = updateCart;
+function emptyCart() {
+    localStorage.removeItem('cart');
+    updateCartUI();
+    Swal.fire({
+        icon: 'info',
+        title: 'Carrito vaciado',
+        text: 'El carrito ha sido vaciado.'
+    });
+}
+
+function checkout() {
+    localStorage.removeItem('cart');
+    updateCartUI();
+    Swal.fire({
+        icon: 'success',
+        title: 'Compra completada',
+        text: 'Gracias por su compra. Su carrito ha sido vaciado.'
+    });
+}
+
+updateCartUI(); // Inicializar la interfaz del carrito al cargar la página
